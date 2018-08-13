@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+        <title>Search Results</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="bootstrap.css" type="text/css" rel="stylesheet" />
+
+        <script src="jquery.js"></script>
+        <script src="bootstrap.js"></script>
+
+        <style>
+            .navbar-default .navbar-nav > li > a {
+                color: #ffffff;
+            }
+
+            .navbar-default .navbar-nav > li > a:hover,
+            .navbar-default .navbar-nav > li > a:focus {
+                color: #cccccc;
+                background-color: transparent;
+            }
+            .navbar-default { 
+                background-color:  #030303;
+                border-color: black;
+                border-radius: 0px;
+            }
+
+            .navbar-default .navbar-brand {
+                color:  #ffffff;
+            }
+
+            .navbar-default .navbar-brand:hover,
+            .navbar-default .navbar-brand:focus {
+                color:  #cccccc;
+                background-color: transparent;
+            }
+
+            .container-fluid-cat{
+                background-color: #de552b; 
+                height: 350px;
+                margin-top: 50px;
+            }
+
+            .header-image-web{
+                height: 350px;
+            }
+
+            .secondary-icons{
+                height: 150px; 
+                margin-left: 15%
+            }
+
+            .secondary-header-cat{
+                margin-left: 13%; 
+                font-weight: bold; 
+                font-size: 50px; 
+                color: white;
+            }
+
+        </style>
+
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#collapse-links">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="#" class="navbar-brand">Credit Analysis Tool</a> 
+            </div>
+
+            <div class="collapse navbar-collapse navbar-right" id="collapse-links">
+                <ul class="nav navbar-nav">
+                    <li><a th:href="@{/}" href="dashboard.html">Analysis</a></li>
+                    <li><a href="record_history.html">Record History</a></li>
+                    <li><a href="clients.html">Clients</a></li>
+                    <li><a href="disputes.html">Disputes</a></li>
+                    <li><a style="margin-right: 10px"  th:href="@{/log_out.html}" href="log_in.html">Log Out</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container-fluid container-fluid-cat">
+            <div class="row">
+                <div class="col-sm-5">
+                    <img class="img-responsive header-image-web visible-sm visible-md visible-lg"  src="header-image-web.png" alt="header-image-web" />
+
+                    <img class="visible-xs" src="header-image-web.png" height="250" alt="header-image-web" />
+                    <form class="visible-xs" method="GET" th:action="@{/search.html}" action="#" role="form">
+                        <div class="form-group" style="margin-top: 10px">
+                            <div class="input-group">
+                                <input required="required" type="text" name="searchKey" class="form-control" placeholder="Enter Report ID" /> 
+                                <input style="display: inline-block; position: absolute" class="btn btn-primary" type="submit" value="Search" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-7 row  visible-sm visible-md visible-lg">
+                    <h3 class="secondary-header-cat">
+                        Browse through past records...
+                    </h3>
+                    <div class="row">
+                        <form class="col-sm-6" method="GET" th:action="@{/search.html}" action="#" style="margin-top: 50px; margin-left: 13%;" role="form">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input required="required" type="text" name="searchKey" class="form-control" placeholder="Enter Report ID" /> 
+                                    <input style="display: inline-block; position: absolute" class="btn btn-primary" type="submit" value="Search" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+
+        <div class="container">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Record ID</th>
+                        <th>Client Name</th>
+                        <th>Date Created</th>
+                        <th>Download</th> 
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <th:block th:each = "report : ${results}">
+                        <tr>
+                            <td th:text="${report.getId()}">234563</td>
+                            <td th:text="${report.getClientName()}">Eshipillah Pasili</td>
+                            <td th:text="${report.getDateGenerated()}">13/02/2018</td>
+                            <td><a th:href="${report.getPath()}" class="btn btn-success">Download</a></td>
+                            <td><button class="btn btn-danger">Delete</button></td> 
+                        </tr>
+                    </th:block>
+                </tbody> 
+            </table> 
+        </div>
+    </body>
+</html>

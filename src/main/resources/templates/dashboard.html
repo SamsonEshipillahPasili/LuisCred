@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+        <title>Analysis</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="/bootstrap.css" type="text/css" rel="stylesheet" />
+        <link href="/sweetalert.css" type="text/css" rel="stylesheet" />
+
+        <script src="/jquery.js"></script>
+        <script src="/dropzone.js"></script>
+        <script src="/bootstrap.js"></script>
+        <script src="/sweetalert.js"></script>
+
+
+        <script>
+            // store the form data to be sent to the server
+            var fileData;
+
+            function submitForm() {
+                if(fileData){ // the user dragged and dropped the HTML file
+                    // check to see if the other fields are set.
+                    if(otherFieldsAreValid()){ // the user has set all the other required fields.
+                        // show progress modal
+                        $("#launchProgressWindow").click();
+                        var formData = new FormData($("#creditReportForm").get(0));
+                        formData.set("file", fileData);
+                        console.log(formData);
+                        // submit the form
+                        sendFormToServer(formData);
+                    }else{
+                        swal("Required", "All fields are required. Fill all the fields and try again", "error");
+                    }
+                }else{ // the user did not drag and drop the file
+                    if(allFieldsAreValid()){ // the user has set all the fields.
+                         // show progress modal
+                        $("#launchProgressWindow").click();
+                        var data = new FormData($("#creditReportForm").get(0));
+                        sendFormToServer(data);
+                    }else{ // one of the fields is missing a values.
+                        swal("Required", "All fields are required. Fill all the fields and try again", "error");
+                    }
+                }
+            }
+
+            function sendFormToServer(data){
+                var serverURL = "/credit/upload/v1";
+                var form = $("#creditReportForm");
+                $.ajax({
+                    url: serverURL,
+                    type: form.attr('method'),
+                    data: data,
+                    dataType: form.attr('enctype'),
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    complete: function(response){
+                        var responseText = response.responseText;
+                        var statusCode = responseText.split(":")[0];
+                        var message = responseText.split(":")[1];
+                        if(statusCode === "success"){
+                            document.getElementById("creditReportForm").reset();
+                            $("#pseudo-choose-file").text("Choose File");
+                            var redirectURL = "/report/pdf/" + message;
+                            window.location = redirectURL;
+                            $("#dismissProgressWindow").click();
+                        }else{
+                             $("#dismissProgressWindow").click();
+                             swal("Error", message, "error");
+                        }
+
+                    }
+                });
+            }
+
+            function allFieldsAreValid(){
+                return $("#clientName").val() && $("#clientAddress").val()
+                                                         && $("#email").val()
+                                                         && $("#phoneNumber").val()
+                                                         && $("#choose-file").val();
+            }
+
+            function otherFieldsAreValid(){
+                return $("#clientName").val() && $("#clientAddress").val()
+                                                         && $("#email").val() && $("#phoneNumber").val();
+            }
+
+            function onDragLeave(){
+                $("#uploadFilePanel").attr("style", "");
+            }
+
+
+            function dragOverOverEventHandler(ev){
+                ev.preventDefault();
+                $("#uploadFilePanel").attr("style", "border-style: dashed;border-color: red");
+            }
+
+            function dropFile(ev){
+                 ev.preventDefault();
+                 $("#uploadFilePanel").attr("style", "");
+                 var creditReportForm = $("#creditReportForm");
+                 fileData = ev.dataTransfer.files[0];
+                 $("#pseudo-choose-file").text(ev.dataTransfer.files[0].name);
+                 ev.dataTransfer.clearData();
+            }
+
+            function checkSame() {
+                 var oldPassword = document.getElementById("old-password").value;
+                 var newPassword = document.getElementById("new-password").value;
+                 var confirmPassword = document.getElementById("confirm-password").value;
+
+                 if (oldPassword === "" || newPassword === "" || confirmPassword === "") {
+                      alert("All Fields Are Required");
+                 } else {
+                      if (confirmPassword !== newPassword) {
+                           alert("Passwords do not match");
+                      } else {
+                            document.getElementById("submit-password-update").click();
+                      }
+                 }
+            }
+
+            // click the button with id 'choose-file' to open the file dialog.
+            function openFileChooser(){
+                $("#choose-file").click();
+            }
+
+            // monitor the change of value on the form control with id 'choose-file'
+            function onFileSelected(chooseFileInput){
+                // get the 'fake' path from the 'chooseFileInput'
+                var value = $(chooseFileInput).val();
+                // split 'value' usint '\' as delimiter
+                var values = value.split("\\");
+                // get the name of the file to be uploaded
+                var fileName = values[2];
+                // set the name of the file as the text of the button with id 'pseudo-choose-file'
+                $("#pseudo-choose-file").text(fileName);
+            }
+        </script>
+
+
+        <style>
+            .navbar-default .navbar-nav > li > a {
+                color: #ffffff;
+            }
+
+            .navbar-default .navbar-nav > li > a:hover,
+            .navbar-default .navbar-nav > li > a:focus {
+                color: crimson;
+                background-color: transparent;
+            }
+            .navbar-default { 
+                background-color:  #fd7b46;
+                border-color: transparent;
+                border-radius: 0px;
+            }
+
+            .navbar-default .navbar-brand {
+                color:  #ffffff;
+            }
+
+            .navbar-default .navbar-brand:hover,
+            .navbar-default .navbar-brand:focus {
+                color:  #cccccc;
+                background-color: transparent;
+            }
+
+            .container-fluid-cat{
+                background-color: white; 
+                height: 150px;
+
+            }
+
+            .header-image-web{
+                height: 350px;
+            }
+
+            .secondary-icons{
+                height: 150px; 
+                margin-left: 30%;
+            }
+
+            .secondary-header-cat{
+                margin-left: 13%; 
+                font-weight: bold; 
+                font-size: 50px; 
+                color: white;
+
+            }
+            
+            .navbar-center{
+                padding-left: 16%;
+            }
+
+        </style>
+
+        <script>
+            function loadHome(){window.location = 'home.html';}
+        </script>
+
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-fixed-top navbar-center" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#collapse-links">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button> 
+            </div>
+
+
+            <div class="collapse navbar-collapse" id="collapse-links">
+                <div class="row">
+                    <div class="col-md-1 col-sm-1">&nbsp;</div>
+                    <ul class="nav navbar-nav col-md-8 col-sm-10" style="padding-left: 7%;">
+                        <li><img onclick="loadHome()" style="cursor: pointer" src="header-image-web.png" alt="logo" width="100"/></li>
+                        <li><a style="margin-top: 26%; color: crimson;" th:href="@{/dashboard.html}" href="dashboard.html">Analysis</a></li>
+                        <li><a style="margin-top: 25%" href="record_history.html">Records</a></li>
+                        <li><a style="margin-top: 29%" href="clients.html">Clients</a></li>
+                        <li><a style="margin-top: 25%" href="disputes.html">Disputes</a></li>
+                        <li><a href="#" style="margin-top: 18%" data-toggle="modal" data-target="#change-password">Edit Password</a></li>
+                        <li><a style="margin-top: 27%" href="log_in.html" th:href="@{/log_out.html}">Log
+                            Out</a></li>
+                    </ul>
+                    <div class="col-md-3 col-sm-1">&nbsp;</div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container-fluid" style="margin-top: 100px;">
+            <div style="margin-bottom: -20px" th:if="${param.password_error}" class="row">
+                <div class="alert alert-danger">You are not authorized to update the password <span class="close" data-dismiss="alert">&times;</span></div>
+            </div>
+            <div  style="margin-bottom: -20px" th:if="${param.error}" class="row">
+                <div class="alert alert-danger">Oops. There was an error during report generation: <span th:text="${param.error}">Error</span> <span class="close" data-dismiss="alert">&times;</span></div>
+            </div>
+            <div style="margin-bottom: -20px" th:if="${param.no_file}" class="row">
+                <div class="alert alert-warning">Oops. No file specified!<span class="close" data-dismiss="alert">&times;</span></div>
+            </div>
+            <div style="margin-bottom: -20px" th:if="${param.password_updated}" class="row">
+                <div class="alert alert-success">Password successfully updated<span class="close" data-dismiss="alert">&times;</span></div>
+            </div>
+        </div>
+        <div class="container-fluid container-fluid-cat">
+            <div class="row">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+                    <img class="img-responsive secondary-icons" src="analysis-icon.png" alt="analysis-icon" />
+                </div>
+                <div class="col-sm-4"></div>
+            </div>
+        </div> 
+
+        <div class="row" style="margin-top: 3%">
+            <div class="col-sm-3 col-md-4">&nbsp;</div>
+            <div class="col-sm-6 col-md-4">
+                <div class="panel panel-danger" id="uploadFilePanel" ondrop="dropFile(event)"
+                     ondragover="dragOverOverEventHandler(event)" ondragleave="onDragLeave()">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">
+                            Upload Client Data
+                        </h2>
+                    </div> 
+                    <div class="panel-body">
+                        <form action="/doUpload"  id="creditReportForm" th:action="@{/doUpload}"
+                              method="POST" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <div class="text-center">
+                                    <label>Drag and drop HTML file here.</label>
+                                </div>
+                                <input type="text" id="clientName" name="clientName" placeholder="Client Name" class="form-control" required="required" />
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="clientAddress" name="clientAddress" placeholder="Client Address" class="form-control" required="required" />
+                            </div>
+                            <div class="form-group">
+                                <input type="email" id="email" name="email" placeholder="Email Address" class="form-control" required="required" />
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Phone Number" class="form-control" required="required" />
+                            </div>
+                            <div class="form-group">
+                                <button type="button"  id="pseudo-choose-file" onclick="openFileChooser()" class="btn btn-primary btn-block">Choose File</button>
+                                <input onchange="onFileSelected(this)" id="choose-file"  style="display: none" required="required" type="file" name="file" />
+                            </div>
+                            <button id="submit-data" type="submit" hidden="hidden">Submit</button>
+                        </form> 
+                    </div>
+                    <div class="panel-footer">
+                        <button onclick="submitForm()" class="btn btn-primary btn-block">Generate Report </button>
+                    </div> 
+                </div>
+            </div>
+            <div class="col-sm-3 col-md-4">&nbsp;</div>
+        </div> 
+
+        </div>
+
+        <!-- modal to change password --> 
+        <div class="modal fade" id="change-password">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal">&times;</button>
+                        <h3 class="modal-title">Change Your Password</h3>
+                    </div> 
+                    <div class="modal-body">
+                        <form role="form" action="#" th:action="@{/dashboard.html}" method="POST">
+                            <div class="form-group">
+                                <label for="old-password">Old Password</label> 
+                                <input type="password" value="" required="required" class="form-control" id="old-password" name="oldPassword"/>
+                            </div> 
+                            <div class="form-group">
+                                <label for="new-password">New Password</label> 
+                                <input value="" type="password" required="required" class="form-control" id="new-password" name="newPassword"/>
+                            </div> 
+                            <div class="form-group">
+                                <label for="confirm-password">Confirm Password</label> 
+                                <input value="" required="required" type="password" class="form-control" id="confirm-password" name="confirmPassword" />
+                            </div>
+                            <button hidden="hidden" id="submit-password-update" type="submit">Change</button>
+                        </form> 
+                    </div>
+                    <div class="modal-footer">
+                        <button data-dismiss="modal" class="btn btn-danger">Cancel</button>
+                        <button onclick="checkSame()" class="btn btn-success">Submit</button>
+                    </div> 
+                </div>
+            </div>
+        </div>
+]
+       <!-- modal to show that the request is being processed. -->
+       <div class="modal fade" id="reportModal" data-backdrop="static" data-keyboard="false">
+           <div class="modal-dialog">
+               <div class="modal-content">
+                   <div class="modal-header">
+                       <h3 class="modal-title">Generating Report...Please wait</h3>
+                   </div>
+                   <div class="modal-body">
+                       <div class="progress progress-striped active">
+                           <div class="progress-bar progress-bar-primary" style="width: 100%" role="progressbar"></div>
+                       </div>
+                   </div>
+                   <div style="display: none" class="modal-footer">
+                       <button id="dismissProgressWindow" class="btn btn-default" data-dismiss="modal">Dismiss</button>
+                       <button id="launchProgressWindow" class="btn btn-default" data-target="#reportModal" data-toggle="modal">Launch Progress Bar</button>
+                   </div>
+               </div>
+           </div>
+       </div>
+    </body>
+</html>

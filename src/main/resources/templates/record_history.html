@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <head>
+        <title>Record History</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="bootstrap.css" type="text/css" rel="stylesheet" />
+
+        <script src="jquery.js"></script>
+        <script src="bootstrap.js"></script>
+
+        <style>
+            .navbar-default .navbar-nav > li > a {
+                color: #ffffff;
+            }
+
+            .navbar-default .navbar-nav > li > a:hover,
+            .navbar-default .navbar-nav > li > a:focus {
+                color: crimson;
+                background-color: transparent;
+            }
+            .navbar-default { 
+                background-color:  #fd7b46;
+                border-color: transparent;
+                border-radius: 0px;
+            }
+
+            .navbar-default .navbar-brand {
+                color:  #ffffff;
+            }
+
+            .navbar-default .navbar-brand:hover,
+            .navbar-default .navbar-brand:focus {
+                color:  #cccccc;
+                background-color: transparent;
+            }
+
+            .container-fluid-cat{
+                background-color: white; 
+                height: 150px;
+
+            }
+
+            .header-image-web{
+                height: 350px;
+            }
+
+            .secondary-icons{
+                height: 150px; 
+                margin-left: 30%;
+            }
+
+            .secondary-header-cat{
+                margin-left: 13%; 
+                font-weight: bold; 
+                font-size: 50px; 
+                color: white;
+
+            }
+            
+            .navbar-center{
+                padding-left: 16%;
+            }
+
+        </style>
+
+        <script>
+            function loadHome(){window.location = 'home.html';}
+        </script>
+
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-fixed-top navbar-center" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#collapse-links">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+
+            <div class="collapse navbar-collapse" id="collapse-links">
+                <div class="row">
+                    <div class="col-sm-1">&nbsp;</div>
+                    <ul class="nav navbar-nav col-sm-8" style="padding-left: 11.7%;">
+                        <li><img onclick="loadHome()" style="cursor: pointer" src="header-image-web.png" alt="logo" width="100"/></li>
+                        <li><a style="margin-top: 26%;" th:href="@{/dashboard.html}" href="dashboard.html">Analysis</a></li>
+                        <li><a style="margin-top: 25%;color: crimson;" href="record_history.html">Records</a></li>
+                        <li><a style="margin-top: 29%" href="clients.html">Clients</a></li>
+                        <li><a style="margin-top: 25%" href="disputes.html">Disputes</a></li>
+                        <li><a style="margin-top: 27%" href="log_in.html" th:href="@{/log_out.html}">Log
+                            Out</a></li>
+                    </ul>
+                    <div class="col-sm-3">&nbsp;</div>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="container" style="margin-top: 120px;">
+            <table class="table table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <th>Record ID</th>
+                        <th>Client Name</th>
+                        <th>Date Created</th>
+                        <th>Download</th> 
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <th:block th:each = "report : ${reportService.findAll()}">
+                        <tr>
+                            <td th:text="${report.getId()}">234563</td>
+                            <td th:text="${report.getClientName()}">Eshipillah Pasili</td>
+                            <td th:text="${report.getDateGenerated()}">13/02/2018</td>
+                            <td><a th:href="${report.documentPath()}" class="btn btn-success">Download</a></td>
+                            <form th:action="@{/delete_report}" method="POST">
+                                <input type="text" name="deleteKey" th:value="${report.getId()}" hidden="hidden" />
+                                <td><button type="submit" class="btn btn-danger">Delete</button></td> 
+                            </form> 
+                        </tr>
+                    </th:block>
+                </tbody> 
+            </table> 
+        </div>
+    </body>
+</html>
