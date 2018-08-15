@@ -1,5 +1,6 @@
 package com.credit.reports.pdf;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.net.URL;
@@ -24,19 +25,15 @@ public class PdfGenerator {
         userAgentCallBack.setSharedContext(renderer.getSharedContext());
         renderer.getSharedContext().setUserAgentCallback(userAgentCallBack);
 
-
-        // we need to authenticate the InputSource input stream first
-       /* URL inputSourceURL = new URL(url);
+        URL inputSourceURL = new URL(url);
         String encoding = (new BASE64Encoder()).encode("flyingSaucer:flyingSaucerPassword".getBytes());
         URLConnection uc = inputSourceURL.openConnection();
         uc.setRequestProperty("Authorization", "Basic " + encoding);
-
-        InputSource inputSource = new InputSource(uc.getInputStream());
-
-
+        InputSource inputSource = new InputSource(new BufferedInputStream(uc.getInputStream()));
         Document document = XMLResource.load(inputSource).getDocument();
-        renderer.setDocument(document, url);*/
-        renderer.setDocument(url);
+
+        renderer.setDocument(document, url);
+
         renderer.layout();
         renderer.createPDF(bufferedOutputStream, true, 1);
 
