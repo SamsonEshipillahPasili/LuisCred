@@ -7,6 +7,7 @@ import com.credit.reports.repositories.ReportRepository;
 import com.credit.reports.services.CRUserService;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.function.Consumer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,8 +25,6 @@ public class CreditAnalysisToolController {
     @Autowired
     private CRUserRepository crUserRepository;
 
-    public CreditAnalysisToolController() {
-    }
 
     @PostMapping({"/delete_report"})
     public String deleteReport(Model model, @RequestParam String deleteKey) {
@@ -80,7 +79,7 @@ public class CreditAnalysisToolController {
         if (null == report[0]) {
             model.addAttribute("results", new ArrayList());
         } else {
-            model.addAttribute("results", Arrays.asList(report[0]));
+            model.addAttribute("results", Collections.singletonList(report[0]));
         }
 
         return "search";

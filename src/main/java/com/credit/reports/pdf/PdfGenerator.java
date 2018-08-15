@@ -1,5 +1,6 @@
 package com.credit.reports.pdf;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.net.URL;
 import java.net.URLConnection;
@@ -16,6 +17,7 @@ public class PdfGenerator {
 
     public static byte[] generatePDF(String url) throws Exception {
         ByteArrayOutputStream pdfByteArrayOutputStream = new ByteArrayOutputStream();
+        BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(pdfByteArrayOutputStream);
         ITextRenderer renderer = new ITextRenderer();
 
         CR_UserAgentCallBack userAgentCallBack = new CR_UserAgentCallBack(renderer.getOutputDevice());
@@ -36,7 +38,8 @@ public class PdfGenerator {
         renderer.setDocument(document, url);*/
         renderer.setDocument(url);
         renderer.layout();
-        renderer.createPDF(pdfByteArrayOutputStream, true, 1);
+        renderer.createPDF(bufferedOutputStream, true, 1);
+
         return pdfByteArrayOutputStream.toByteArray();
     }
 

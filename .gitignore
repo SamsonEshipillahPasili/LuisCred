@@ -26,3 +26,6 @@
 /.nb-gradle/
 
 db_credit_analysis/
+*.dat
+*.ctrl
+*.lck
