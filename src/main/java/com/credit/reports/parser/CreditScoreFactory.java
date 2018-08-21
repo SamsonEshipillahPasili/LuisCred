@@ -12,7 +12,7 @@ public class CreditScoreFactory {
 
     public CreditScoreFactory(Document document) {
         this.document = document;
-        this.csMap = new HashMap();
+        this.csMap = new HashMap<>();
         CreditScore transUnion = new CreditScore();
         CreditScore experian = new CreditScore();
         CreditScore equifax = new CreditScore();

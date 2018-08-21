@@ -33,15 +33,15 @@ public class Report implements Serializable {
         this.dateGenerated = dateFormat.format(new Date());
     }
 
+    public Report(){} // needed for JPA to work.
+
     public String getClientName() {
         return this.reportDataProxy.getClientName();
     }
 
     public String documentPath() {
-        return "/report/pdf/" + this.id + "/v1";
-    }
+        return "/report/pdf/" + this.id;
 
-    public Report() {
     }
 
     public String getDateGenerated() {

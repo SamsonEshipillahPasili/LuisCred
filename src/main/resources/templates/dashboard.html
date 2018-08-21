@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Analysis</title>
         <meta charset="UTF-8" />
@@ -193,15 +192,25 @@
                 padding-left: 16%;
             }
 
+
+            .navbar-nav{
+                width: 100%;
+                text-align: center;
+            }
+
+            .navbar-nav > li {
+                float: none;
+                display: inline-block;
+            }
         </style>
 
         <script>
-            function loadHome(){window.location = 'home.html';}
+            function loadHome(){window.location = '/';}
         </script>
 
     </head>
     <body>
-        <nav class="navbar navbar-default navbar-fixed-top navbar-center" role="navigation">
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse"
                         data-target="#collapse-links">
@@ -214,19 +223,20 @@
 
 
             <div class="collapse navbar-collapse" id="collapse-links">
-                <div class="row">
-                    <div class="col-md-1 col-sm-1">&nbsp;</div>
-                    <ul class="nav navbar-nav col-md-8 col-sm-10" style="padding-left: 7%;">
+               <!-- <div class="row">
+                    <div class="col-md-1 col-sm-1">&nbsp;</div>-->
+                    <!--<ul class="nav navbar-nav col-md-8 col-sm-10" style="padding-left: 7%;">-->
+                    <ul class="nav navbar-nav">
                         <li><img onclick="loadHome()" style="cursor: pointer" src="header-image-web.png" alt="logo" width="100"/></li>
                         <li><a style="margin-top: 26%; color: crimson;" th:href="@{/dashboard.html}" href="dashboard.html">Analysis</a></li>
                         <li><a style="margin-top: 25%" href="record_history.html">Records</a></li>
-                        <li><a style="margin-top: 29%" href="clients.html">Clients</a></li>
-                        <li><a style="margin-top: 25%" href="disputes.html">Disputes</a></li>
+                        <!--<li><a style="margin-top: 29%" href="clients.html">Clients</a></li>
+                        <li><a style="margin-top: 25%" href="disputes.html">Disputes</a></li>-->
                         <li><a href="#" style="margin-top: 18%" data-toggle="modal" data-target="#change-password">Edit Password</a></li>
                         <li><a style="margin-top: 27%" href="log_in.html" th:href="@{/log_out.html}">Log
                             Out</a></li>
                     </ul>
-                    <div class="col-md-3 col-sm-1">&nbsp;</div>
+                   <!-- <div class="col-md-3 col-sm-1">&nbsp;</div>-->
                 </div>
             </div>
         </nav>

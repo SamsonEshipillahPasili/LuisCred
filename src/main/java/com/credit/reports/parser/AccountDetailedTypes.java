@@ -3,6 +3,7 @@ package com.credit.reports.parser;
 import com.credit.reports.pdf.ReportData;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 public class AccountDetailedTypes {
     private final List<TradeLine> tradeLines;
@@ -52,7 +53,11 @@ public class AccountDetailedTypes {
     }
 
     public String getAccountDetailedTypesRating() {
-        long total = this.getAutoLoans() + this.getCreditCardAndOthers() + this.getEducational() + this.getOtherInstallmentLoans() + this.getRealEstate();
+        long total = Stream.of(this.getAutoLoans(),this.getCreditCardAndOthers(),
+                this.getEducational(),this.getOtherInstallmentLoans(),this.getRealEstate())
+                .filter(value -> value > 0)
+                .count();
+        //long total = this.getAutoLoans() + this.getCreditCardAndOthers() + this.getEducational() + this.getOtherInstallmentLoans() + this.getRealEstate();
         if (total >= 0L && total <= 1L) {
             return "Bad";
         } else if (total == 2L) {

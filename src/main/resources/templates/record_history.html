@@ -66,7 +66,7 @@
         </style>
 
         <script>
-            function loadHome(){window.location = 'home.html';}
+            function loadHome(){window.location = '/';}
         </script>
 
     </head>
@@ -89,8 +89,8 @@
                         <li><img onclick="loadHome()" style="cursor: pointer" src="header-image-web.png" alt="logo" width="100"/></li>
                         <li><a style="margin-top: 26%;" th:href="@{/dashboard.html}" href="dashboard.html">Analysis</a></li>
                         <li><a style="margin-top: 25%;color: crimson;" href="record_history.html">Records</a></li>
-                        <li><a style="margin-top: 29%" href="clients.html">Clients</a></li>
-                        <li><a style="margin-top: 25%" href="disputes.html">Disputes</a></li>
+                        <!--<li><a style="margin-top: 29%" href="clients.html">Clients</a></li>
+                        <li><a style="margin-top: 25%" href="disputes.html">Disputes</a></li>-->
                         <li><a style="margin-top: 27%" href="log_in.html" th:href="@{/log_out.html}">Log
                             Out</a></li>
                     </ul>

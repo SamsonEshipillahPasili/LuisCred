@@ -141,16 +141,17 @@ public class ReportData implements Serializable {
 
     public String getInquiryRating() {
         int hardInquiries = Integer.parseInt(this.getHardInquiries());
-        if (hardInquiries == 0) {
+
+        if (hardInquiries >= 0 && hardInquiries <= 1) {
             return "Excellent";
-        } else if (hardInquiries > 0 && hardInquiries <= 3) {
+        } else if (hardInquiries >= 2 && hardInquiries <= 3) {
             return "Good";
-        } else if (hardInquiries > 3 && hardInquiries <= 6) {
+        } else if (hardInquiries >= 4 && hardInquiries <= 5) {
             return "Fair";
-        } else if (hardInquiries > 6 && hardInquiries <= 9) {
+        } else if (hardInquiries >= 6 && hardInquiries <= 7) {
             return "Poor";
         } else {
-            return hardInquiries >= 10 ? "Bad" : "Unavailable";
+            return hardInquiries >= 8 ? "Bad" : "Unavailable";
         }
     }
 
@@ -176,9 +177,8 @@ public class ReportData implements Serializable {
 
     public List<TradeLine> getPositiveTradeLines() {
         List<TradeLine> allTradeLines = this.getTradeLines();
-        return (List)allTradeLines.stream().filter((tradeLine) -> {
-            return !this.isNegativeAccount(tradeLine.getTransUnion()) && !this.isNegativeAccount(tradeLine.getExperian()) && !this.isNegativeAccount(tradeLine.getEquifax());
-        }).collect(Collectors.toList());
+        return (List)allTradeLines.stream().filter((tradeLine) ->
+                !this.isNegativeAccount(tradeLine.getTransUnion()) && !this.isNegativeAccount(tradeLine.getExperian()) && !this.isNegativeAccount(tradeLine.getEquifax())).collect(Collectors.toList());
     }
 
     public String getPaymentHistoryPercentage() {
@@ -243,7 +243,7 @@ public class ReportData implements Serializable {
             tradeLine = (TradeLine)var4.next();
         }
 
-        return sum / (double)tradeLines.size() + "%";
+        return Math.round(sum / (double)tradeLines.size()) + "%";
     }
 
     private boolean isNegativeAccount(AccountInformation accountInformation) {
