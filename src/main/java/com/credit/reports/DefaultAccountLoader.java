@@ -15,8 +15,7 @@ public class DefaultAccountLoader implements CommandLineRunner {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    public DefaultAccountLoader() {
-    }
+
 
     public void run(String... args) throws Exception {
         CRUser CRUser;
@@ -33,7 +32,6 @@ public class DefaultAccountLoader implements CommandLineRunner {
             CRUser.setPassword(this.passwordEncoder.encode("flyingSaucerPassword"));
             this.crUserRepository.save(CRUser);
         }
-
     }
 
     @Bean
