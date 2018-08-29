@@ -11,9 +11,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 
 @SpringBootApplication
 public class CreditAnalysisToolApplication extends Application {
@@ -37,6 +35,7 @@ public class CreditAnalysisToolApplication extends Application {
                 new ProcessBuilder("x-www-browser", "http://localhost:8081/").start();
             } catch (IOException e) {
                 e.printStackTrace();
+                getHostServices().showDocument("http://localhost:8081");
             }
         }).start();
     }
