@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXSpinner?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:controller="com.credit.reports.controllers.SplashController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="529.0" style="-fx-background-color: rgb(253, 123, 70);" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="202.0" fitWidth="213.0" layoutX="164.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@image.png" />
+         </image>
+      </ImageView>
+      <JFXSpinner fx:id="spinner" layoutX="216.0" layoutY="218.0" prefHeight="61.0" prefWidth="97.0" progress="0.0" style="-fx-inner-color: white" />
+      <Label layoutX="96.0" layoutY="316.0" prefHeight="26.0" prefWidth="338.0" text="Setting things up...please wait." textFill="WHITE">
+         <font>
+            <Font size="21.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
