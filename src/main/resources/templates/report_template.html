@@ -79,13 +79,12 @@
                 font-family: Times New Romans;
                 font-size: 16px;
             }
-            tr{
-                page-break-inside: avoid;
-            }
 
             th{
                 text-align: center;
+                vertical-align: middle;
             }
+
             td{
                 text-align: center;
             }
@@ -101,6 +100,10 @@
                 width: 25%;
                 word-break: break-all;
             }
+
+            table > thead > tr, table > tbody > tr{
+                page-break-inside: avoid;
+            }
         </style>
     </head>
     <body class="container">
@@ -110,7 +113,7 @@
         <div class = "row credit-analysis-header-row">
             <div class="col-sm-3">&nbsp;</div> 
             <div class="col-sm-5">
-                <div style="text-align: center"><span class="credit-analysis-header-text" style="font-weight: bold">Financial  & Credit Coach</span></div>
+                <div style="text-align: center"><span class="credit-analysis-header-text" style="font-weight: bold">CREDIT ANALYSIS REPORT</span></div> 
             </div>
             <div class="col-sm-4">&nbsp;</div> 
         </div> 
@@ -140,15 +143,15 @@
         <div class = "row credit-analysis-header-row" style="margin-top: 100px">
             <div class="col-sm-1">&nbsp;</div>
             <div class="col-sm-9">
-                <div style="text-align: center"><span style="font-family: serif; font-size: 14px; font-style: italic">The Credit Evangelist is a d/b/a of Perez Enterprises LLC., 15701 State Road 50, Suite 204, Clermont, FL 34711</span></div> 
+                <div style="text-align: center"><span style="font-family: serif; font-size: 14px; font-style: italic">The Financial &amp; Life Coach is a d/b/a of Perez Enterprises LLC., 15701 State Road 50, Suite 204, Clermont, FL 34711</span></div>
             </div>
             <div class="col-sm-1">&nbsp;</div> 
         </div> 
 
         <!-- next PDF page --> 
-        <h3 class="credit-analysis-h3">INTRODUCTION</h3> 
+        <h3 class="credit-analysis-h3">INTRODUCTION</h3>
         <div class="credit-analysis-main-text">
-            Dear <span th:text="${reportData.getClientFirstName().trim()}">John</span>,<br /><br />
+           <span>Dear </span><span th:text="${reportData.getClientFirstName().trim()}">John</span>,<br /><br />
             <p>
                 The first step in my credit restoration process is to identify the inaccurate data in your credit
                 reports that are negatively impacting your credit scores. This is done through a deep credit
@@ -171,12 +174,12 @@
                 to the credit reporting agencies (CRAs).
             </p>
 
-            <p>
+           <p>
                 This will essentially be the process for every round of services – generally comprised of a
                 minimum of four rounds about every 35 days. Each round is focused on challenging the
                 inaccurate, outdated, unverifiable information being reported by the CRAs, creditors, and
                 collection agencies.
-            </p>
+           </p>
 
             <p>
                 Please remember that after about every 35 days you’ll receive correspondence back from the
@@ -193,10 +196,14 @@
             <p>
                 Most appreciated<br />
                 Luis A. Perez, M.Div.<br />
-                Life &amp; Financial Coach
+                Financial &amp; Credit Coach
             </p>
         </div>
 
+        <br />
+        <br />
+        <br />
+        <br />
         <br />
 
         <h3 class="credit-analysis-h3">CLIENT INFORMATION</h3>
@@ -208,7 +215,7 @@
             <strong>Email: </strong><span th:text="${reportData.getEmail()}">jonnyboy13@sandango.com</span>
         </p>
 
-        <h3 class="spacer">&nbsp;</h3>
+        <!-- <h3 class="spacer">&nbsp;</h3> -->
         <!--****************************************************************************************************** --> 
         <h3 class="credit-analysis-h3"> PERSONAL INFORMATION </h3>
         <table class="table table-bordered table-condensed">
@@ -272,7 +279,7 @@
             </tbody> 
         </table>
 
-        <h3 class="spacer">&nbsp;</h3>
+        <!-- <h3 class="spacer">&nbsp;</h3> -->
         <!--****************************************************************************************************** --> 
         <h3 class="credit-analysis-h3">YOUR CONSUMER EDUCATIONAL CREDIT SCORES <br />
             (VANTAGE SCORING MODEL 3.0)
@@ -299,7 +306,7 @@
             </tbody> 
         </table>
 
-        <h3 class="spacer">&nbsp;</h3>
+        <!-- <h3 class="spacer">&nbsp;</h3> -->
         <!--****************************************************************************************************** --> 
         <h3 class="credit-analysis-h3">DEROGATORY TRADELINES</h3>
         <table class="table table-bordered table-condensed">
@@ -327,7 +334,7 @@
             </tbody> 
         </table>
 
-        <h3 class="spacer">&nbsp;</h3>
+        <!-- <h3 class="spacer">&nbsp;</h3> -->
         <!--****************************************************************************************************** --> 
         <h3 class="credit-analysis-h3">A SUMMARY OF THE OVERALL QUALITY OF YOUR CREDIT PROFILE</h3>
         <table class="table table-bordered table-condensed">
@@ -343,7 +350,7 @@
                         )
 
                     </th>-->
-                    <th style="vertical-align: middle"   >PAYMENT HISTORY
+                    <th style="vertical-align: middle" >PAYMENT HISTORY
                         (
                         <span>35%</span>,
                         <span>30%</span>,
@@ -386,13 +393,14 @@
             </tbody> 
         </table>
 
-        <h3 class="spacer">&nbsp;</h3>
+        <!-- <h3 class="spacer">&nbsp;</h3> -->
         <!--****************************************************************************************************** --> 
         <table class="table table-bordered table-condensed">
             <thead>
                 <tr class="credit-analysis-tr">
-                   <!-- <th>REVOLVING DEBT/CREDIT RATIOS (<span th:text="${reportData.getAverageRevolvingDCratio()}">30%</span>)</th>-->
-                    <th style="vertical-align: middle"   >REVOLVING DEBT/CREDIT RATIOS (<span>35%, 30%, 15%, 10%, 10%</span>)</th>
+                   <th style="vertical-align: middle">REVOLVING DEBT/CREDIT RATIOS (<span th:text="${reportData.getAverageRevolvingDCratio()}">30%</span>)</th>
+                    <!--<th style="vertical-align: middle"   >REVOLVING DEBT/CREDIT RATIOS (<span>35%</span>)</th>-->
+                    <!--<th style="vertical-align: middle"   >REVOLVING DEBT/CREDIT RATIOS (<span>35%, 30%, 15%, 10%, 10%</span>)</th>-->
                     <th style="vertical-align: middle"   >D/C Ratio %?</th>
                 </tr>
             </thead> 
@@ -414,14 +422,15 @@
             </tbody> 
         </table>
 
-        <h3 class="spacer">&nbsp;</h3>
+        <!-- <h3 class="spacer">&nbsp;</h3> -->
         <!--****************************************************************************************************** --> 
         <table class="table table-bordered table-condensed">
             <thead>
                 <tr class="credit-analysis-tr">
-                    <th>#</th>
-                    <th>CREDIT MIX AMONG "CURRENT" REVOLVING AND INSTALLMENT TRADELINES</th>
-                    <th>How many Tradelines are reporting these types of accounts?</th>
+                    <th style="vertical-align: middle">#</th>
+                   <!-- <th style="vertical-align: middle">CREDIT MIX AMONG "CURRENT" REVOLVING AND INSTALLMENT TRADELINES</th> -->
+                    <th style="vertical-align: middle">CREDIT MIX AMONG ALL TRADELINES (<span th:text="${reportData.getAccountDetailedTypes().getCreditCardAndOthers() + reportData.getAccountDetailedTypes().getRealEstate() + reportData.getAccountDetailedTypes().getAutoLoans() + reportData.getAccountDetailedTypes().getEducational() + reportData.getAccountDetailedTypes().getOtherInstallmentLoans()}"></span>%)</th>
+                    <th style="vertical-align: middle">How many Tradelines are reporting these types of accounts?</th>
                 </tr>
             </thead> 
             <tbody>
@@ -459,14 +468,14 @@
             </tbody> 
         </table>
 
-        <h3 class="spacer">&nbsp;</h3>
+        <!-- <h3 class="spacer">&nbsp;</h3> -->
         <!--****************************************************************************************************** --> 
         <table class="table table-bordered table-condensed">
             <thead>
                 <tr class="credit-analysis-tr">
-                    <th>#</th>
-                    <th>AGE OF YOUR CREDIT ACCOUNTS (10%) </th>
-                    <th>Age in Years</th>
+                    <th style="vertical-align: middle">#</th>
+                    <th style="vertical-align: middle">AGE OF YOUR CREDIT ACCOUNTS (10%) </th>
+                    <th style="vertical-align: middle">Age in Years</th>
                 </tr>
             </thead> 
             <tbody>
@@ -483,14 +492,14 @@
             </tbody> 
         </table>
 
-        <h3 class="spacer">&nbsp;</h3>
+        <!-- <h3 class="spacer">&nbsp;</h3> -->
         <!--****************************************************************************************************** --> 
         <table class="table table-bordered table-condensed">
             <thead>
                 <tr class="credit-analysis-tr">
-                    <th>#</th>
-                    <th>TOTAL HARD INQUIRY PULLS IN LAST 12 MONTHS (10%)</th>
-                    <th>Inquiries</th>
+                    <th style="vertical-align: middle">#</th>
+                    <th style="vertical-align: middle">TOTAL HARD INQUIRY PULLS IN LAST 12 MONTHS (10%)</th>
+                    <th style="vertical-align: middle">Inquiries</th>
                 </tr>
             </thead> 
             <tbody>
@@ -507,7 +516,7 @@
             </tbody> 
         </table>
 
-        <h3 class="spacer">&nbsp;</h3>
+        <!-- <h3 class="spacer">&nbsp;</h3> -->
         <!--****************************************************************************************************** --> 
         <h3 class="credit-analysis-h3"> ALL TRADELINES </h3>
         <th:block th:each = "tradeLine : ${reportData.getTradeLines()}">
@@ -519,131 +528,133 @@
                         <th style="vertical-align: middle"><strong>EXPERIAN</strong></th>
                         <th style="vertical-align: middle"><strong>EQUIFAX</strong></th>
                     </tr>
-                    
-                    <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().ACCOUNT_NUMBER))}">
-                        <td style="vertical-align: middle;background-color: white"  class="left-header">Account #</td>
-                        <td style="vertical-align: middle"  class="left-header" th:text="${tradeLine.getTransUnion().getAccountNumer()}"></td>
-                        <td style="vertical-align: middle"  class="left-header" th:text="${tradeLine.getExperian().getAccountNumer()}"></td>
-                        <td style="vertical-align: middle"  class="left-header" th:text="${tradeLine.getEquifax().getAccountNumer()}"></td>
-                    </tr>
-                    <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().ACCOUNT_TYPE))}">
-                        <td style="vertical-align: middle;background-color: white"  class="left-header">Account Type</td>
-                        <td style="vertical-align: middle"  class="left-header" th:text="${tradeLine.getTransUnion().getAccountType()}"></td>
-                        <td style="vertical-align: middle"  class="left-header" th:text="${tradeLine.getExperian().getAccountType()}"></td>
-                        <td style="vertical-align: middle"  class="left-header" th:text="${tradeLine.getEquifax().getAccountType()}"></td>
-                    </tr>
-                    <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().ACCOUNT_DETAILED_TYPE))}">
-                        <td style="vertical-align: middle;background-color: white"  class="left-header">Account Type - Detail</td>
-                        <td style="vertical-align: middle"  th:text="${tradeLine.getTransUnion().getDetailedAccountType()}"></td>
-                        <td style="vertical-align: middle"  th:text="${tradeLine.getExperian().getDetailedAccountType()}"></td>
-                        <td style="vertical-align: middle"  th:text="${tradeLine.getEquifax().getDetailedAccountType()}"></td>
-                    </tr>
-                    <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().BUREAU_CODE))}">
-                        <td style="vertical-align: middle;background-color: white" class="left-header">Bureau Code</td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getTransUnion().getBeaureuCode()}"></td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getExperian().getBeaureuCode()}"></td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getEquifax().getBeaureuCode()}"></td>
-                    </tr>
-                    <tr th:style="${tradeLine.getDerogatoryStyle()}">
-                        <td style="vertical-align: middle;background-color: white" class="left-header">Account Status</td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getTransUnion().getAccountStatus()}"></td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getExperian().getAccountStatus()}"></td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getEquifax().getAccountStatus()}"></td>
-                    </tr>
-                    <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().MONTHLY_PAYMENT))}">
-                        <td style="vertical-align: middle;background-color: white" class="left-header">Monthly Payment</td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getTransUnion().getMonthlyPayment()}"></td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getExperian().getMonthlyPayment()}"></td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getEquifax().getMonthlyPayment()}"></td>
-                    </tr>
-                    <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().DATE_OPENED))}">
-                        <td style="vertical-align: middle;background-color: white" class="left-header">Date Opened</td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getTransUnion().getDateOpened()}"></td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getExperian().getDateOpened()}"></td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getEquifax().getDateOpened()}"></td>
-                    </tr>
-                    <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().BALANCE))}">
-                        <td style="vertical-align: middle;background-color: white" class="left-header">Balance</td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getTransUnion().getRawBalance()}"></td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getExperian().getRawBalance()}"></td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getEquifax().getRawBalance()}"></td>
-                    </tr>
-                    <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().NUMBER_OF_MONTHS))}">
-                        <td style="vertical-align: middle;background-color: white">Number of Months (Terms) </td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getTransUnion().getNoOfMonths()}"></td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getExperian().getNoOfMonths()}"></td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getEquifax().getNoOfMonths()}"></td>
-                    </tr>
-                    <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().HIGH_CREDIT))}">
-                        <td style="vertical-align: middle;background-color: white" class="left-header">High Credit </td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getTransUnion().getHighCredit()}"></td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getExperian().getHighCredit()}"></td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getEquifax().getHighCredit()}"></td>
-                    </tr>
-                    <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().CREDIT_LIMIT))}">
-                        <td style="vertical-align: middle;background-color: white" class="left-header">Credit Limit</td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getTransUnion().getRawCreditLimit()}"></td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getExperian().getRawCreditLimit()}"></td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getEquifax().getRawCreditLimit()}"></td>
-                    </tr>
-                    <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().PAST_DUE))}">
-                        <td style="vertical-align: middle;background-color: white" class="left-header">Past Due</td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getTransUnion().getPastDue()}"></td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getExperian().getPastDue()}"></td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getEquifax().getPastDue()}"></td>
-                    </tr>
-                    <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().PAYMENT_STATUS))}">
-                        <td style="vertical-align: middle;background-color: white" class="left-header">Payment Status</td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getTransUnion().getPaymentStatus()}"></td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getExperian().getPaymentStatus()}"></td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getEquifax().getPaymentStatus()}"></td>
-                    </tr>
-                    <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().LAST_REPORTED))}">
-                        <td style="vertical-align: middle;background-color: white" class="left-header">Last Reported</td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getTransUnion().getLastReported()}"></td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getExperian().getLastReported()}"></td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getEquifax().getLastReported()}"></td>
-                    </tr>
-                    <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().COMMENTS))}">
-                        <td style="vertical-align: middle;background-color: white" class="left-header">Comments</td>
-                        <td style="vertical-align: middle"   th:text="${tradeLine.getTransUnion().getComments()}"></td>
-                        <td style="vertical-align: middle"   th:text="${tradeLine.getExperian().getComments()}"></td>
-                        <td style="vertical-align: middle"   th:text="${tradeLine.getEquifax().getComments()}"></td>
-                    </tr>
-                    <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().DATE_LAST_ACTIVE))}">
-                        <td style="vertical-align: middle;background-color: white" class="left-header">Date Last Active</td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getTransUnion().getDateLastActive()}"></td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getExperian().getDateLastActive()}"></td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getEquifax().getDateLastActive()}"></td>
-                    </tr>
-                    <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().DATE_OF_LAST_PAYMENT))}">
-                        <td style="vertical-align: middle;background-color: white" class="left-header">Date of Last Payment</td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getTransUnion().getDateOfLastPayment()}"></td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getExperian().getDateOfLastPayment()}"></td>
-                        <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getEquifax().getDateOfLastPayment()}"></td>
-                    </tr>
-                    
-                    <tr th:style="${tradeLine.getLateStyle()}">
-                        <td style="vertical-align: middle;background-color: white">Report Of Times Late During Last 24 Months?</td>
-                            <td style="vertical-align: middle"  >
+                </thead>
+                <tbody>
+                <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().ACCOUNT_NUMBER))}">
+                    <td style="vertical-align: middle;background-color: white"  class="left-header">Account #</td>
+                    <td style="vertical-align: middle"  class="left-header" th:text="${tradeLine.getTransUnion().getAccountNumer()}"></td>
+                    <td style="vertical-align: middle"  class="left-header" th:text="${tradeLine.getExperian().getAccountNumer()}"></td>
+                    <td style="vertical-align: middle"  class="left-header" th:text="${tradeLine.getEquifax().getAccountNumer()}"></td>
+                </tr>
+                <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().ACCOUNT_TYPE))}">
+                    <td style="vertical-align: middle;background-color: white"  class="left-header">Account Type</td>
+                    <td style="vertical-align: middle"  class="left-header" th:text="${tradeLine.getTransUnion().getAccountType()}"></td>
+                    <td style="vertical-align: middle"  class="left-header" th:text="${tradeLine.getExperian().getAccountType()}"></td>
+                    <td style="vertical-align: middle"  class="left-header" th:text="${tradeLine.getEquifax().getAccountType()}"></td>
+                </tr>
+                <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().ACCOUNT_DETAILED_TYPE))}">
+                    <td style="vertical-align: middle;background-color: white"  class="left-header">Account Type - Detail</td>
+                    <td style="vertical-align: middle"  th:text="${tradeLine.getTransUnion().getDetailedAccountType()}"></td>
+                    <td style="vertical-align: middle"  th:text="${tradeLine.getExperian().getDetailedAccountType()}"></td>
+                    <td style="vertical-align: middle"  th:text="${tradeLine.getEquifax().getDetailedAccountType()}"></td>
+                </tr>
+                <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().BUREAU_CODE))}">
+                    <td style="vertical-align: middle;background-color: white" class="left-header">Bureau Code</td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getTransUnion().getBeaureuCode()}"></td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getExperian().getBeaureuCode()}"></td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getEquifax().getBeaureuCode()}"></td>
+                </tr>
+                <tr th:style="${tradeLine.getDerogatoryStyle()}">
+                    <td style="vertical-align: middle;background-color: white" class="left-header">Account Status</td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getTransUnion().getAccountStatus()}"></td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getExperian().getAccountStatus()}"></td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getEquifax().getAccountStatus()}"></td>
+                </tr>
+                <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().MONTHLY_PAYMENT))}">
+                    <td style="vertical-align: middle;background-color: white" class="left-header">Monthly Payment</td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getTransUnion().getMonthlyPayment()}"></td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getExperian().getMonthlyPayment()}"></td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getEquifax().getMonthlyPayment()}"></td>
+                </tr>
+                <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().DATE_OPENED))}">
+                    <td style="vertical-align: middle;background-color: white" class="left-header">Date Opened</td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getTransUnion().getDateOpened()}"></td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getExperian().getDateOpened()}"></td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getEquifax().getDateOpened()}"></td>
+                </tr>
+                <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().BALANCE))}">
+                    <td style="vertical-align: middle;background-color: white" class="left-header">Balance</td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getTransUnion().getRawBalance()}"></td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getExperian().getRawBalance()}"></td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getEquifax().getRawBalance()}"></td>
+                </tr>
+                <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().NUMBER_OF_MONTHS))}">
+                    <td style="vertical-align: middle;background-color: white">Number of Months (Terms) </td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getTransUnion().getNoOfMonths()}"></td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getExperian().getNoOfMonths()}"></td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getEquifax().getNoOfMonths()}"></td>
+                </tr>
+                <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().HIGH_CREDIT))}">
+                    <td style="vertical-align: middle;background-color: white" class="left-header">High Credit </td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getTransUnion().getHighCredit()}"></td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getExperian().getHighCredit()}"></td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getEquifax().getHighCredit()}"></td>
+                </tr>
+                <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().CREDIT_LIMIT))}">
+                    <td style="vertical-align: middle;background-color: white" class="left-header">Credit Limit</td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getTransUnion().getRawCreditLimit()}"></td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getExperian().getRawCreditLimit()}"></td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getEquifax().getRawCreditLimit()}"></td>
+                </tr>
+                <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().PAST_DUE))}">
+                    <td style="vertical-align: middle;background-color: white" class="left-header">Past Due</td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getTransUnion().getPastDue()}"></td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getExperian().getPastDue()}"></td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getEquifax().getPastDue()}"></td>
+                </tr>
+                <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().PAYMENT_STATUS))}">
+                    <td style="vertical-align: middle;background-color: white" class="left-header">Payment Status</td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getTransUnion().getPaymentStatus()}"></td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getExperian().getPaymentStatus()}"></td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getEquifax().getPaymentStatus()}"></td>
+                </tr>
+                <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().LAST_REPORTED))}">
+                    <td style="vertical-align: middle;background-color: white" class="left-header">Last Reported</td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getTransUnion().getLastReported()}"></td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getExperian().getLastReported()}"></td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getEquifax().getLastReported()}"></td>
+                </tr>
+                <!--<tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().COMMENTS))}">-->
+                <tr>
+                    <td style="vertical-align: middle;background-color: white" class="left-header">Comments</td>
+                    <td style="vertical-align: middle"   th:text="${tradeLine.getTransUnion().getComments()}"></td>
+                    <td style="vertical-align: middle"   th:text="${tradeLine.getExperian().getComments()}"></td>
+                    <td style="vertical-align: middle"   th:text="${tradeLine.getEquifax().getComments()}"></td>
+                </tr>
+                <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().DATE_LAST_ACTIVE))}">
+                    <td style="vertical-align: middle;background-color: white" class="left-header">Date Last Active</td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getTransUnion().getDateLastActive()}"></td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getExperian().getDateLastActive()}"></td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getEquifax().getDateLastActive()}"></td>
+                </tr>
+                <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().DATE_OF_LAST_PAYMENT))}">
+                    <td style="vertical-align: middle;background-color: white" class="left-header">Date of Last Payment</td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getTransUnion().getDateOfLastPayment()}"></td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getExperian().getDateOfLastPayment()}"></td>
+                    <td style="vertical-align: middle"   class="left-header" th:text="${tradeLine.getEquifax().getDateOfLastPayment()}"></td>
+                </tr>
+
+                <tr th:style="${tradeLine.getLateStyle()}">
+                    <td style="vertical-align: middle;background-color: white">Report Of Times Late During Last 24 Months?</td>
+                    <td style="vertical-align: middle"  >
                                <span th:if="${!tradeLine.getTransUnion().getAccountNumer().trim().isEmpty()}"
                                      th:text="${tradeLine.getTransUnion().getPaymentHistory().getLatePayments()}"></span>
-                            </td>
-                            <td style="vertical-align: middle"  >
+                    </td>
+                    <td style="vertical-align: middle"  >
                                 <span th:if="${!tradeLine.getExperian().getAccountNumer().trim().isEmpty()}"
                                       th:text="${tradeLine.getExperian().getPaymentHistory().getLatePayments()}"></span>
-                            </td>
-                            <td style="vertical-align: middle"  >
+                    </td>
+                    <td style="vertical-align: middle"  >
                                 <span th:if="${!tradeLine.getEquifax().getAccountNumer().trim().isEmpty()}"
                                       th:text="${tradeLine.getEquifax().getPaymentHistory().getLatePayments()}"></span>
-                            </td>
-                    </tr>
-                </thead> 
+                    </td>
+                </tr>
+                </tbody>
             </table>
 
         </th:block>
 
-        <h3 class="spacer">&nbsp;</h3>
+        <!-- <h3 class="spacer">&nbsp;</h3> -->
         <!--****************************************************************************************************** --> 
         <h3 class="credit-analysis-h3">FREQUENTLY-ASKED QUESTIONS</h3>
 

@@ -29,7 +29,10 @@ public class CreditAnalysisToolController {
     @PostMapping({"/delete_report"})
     public String deleteReport(Model model, @RequestParam String deleteKey) {
         model.addAttribute("reportService", this.reportRepository);
-        this.reportRepository.deleteById(deleteKey);
+        if(this.reportRepository.existsById(deleteKey)){
+            // only delete if it exists, other wise just return the page
+            this.reportRepository.deleteById(deleteKey);
+        }
         return "record_history";
     }
 
