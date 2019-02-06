@@ -11,9 +11,6 @@ public class TradeLine {
     private AccountInformation experian;
     private AccountInformation equifax;
 
-    public TradeLine() {
-    }
-
     public AccountInformation getTransUnion() {
         return this.transUnion;
     }
@@ -47,7 +44,7 @@ public class TradeLine {
 
     public String getAverageBalance() {
         List<String> rawBalances = Arrays.asList(this.transUnion.getBalance(), this.experian.getBalance(), this.equifax.getBalance());
-        List<String> processedBalances = (List<String>)rawBalances.stream().map((rawBalance) -> {
+        List<String> processedBalances = rawBalances.stream().map((rawBalance) -> {
             return rawBalance.replace("$", "").replace("-", "").replace(",", "").trim();
         }).collect(Collectors.toList());
         Double[] average = new Double[]{0.0D};
@@ -56,7 +53,7 @@ public class TradeLine {
         }).average().ifPresent((averageBalance) -> {
             average[0] = averageBalance;
         });
-        return String.valueOf(Math.round(average[0].doubleValue()));
+        return String.valueOf(Math.round(average[0]));
     }
 
     public String getAverageCreditLimit() {
@@ -65,14 +62,14 @@ public class TradeLine {
         double totalCreditLimits = 0.0D;
 
         for(int count = 0; count < creditLimits.size(); ++count) {
-            if (!((String)creditLimits.get(count)).isEmpty()) {
-                totalCreditLimits += Double.parseDouble((String)creditLimits.get(count));
+            if (!creditLimits.get(count).isEmpty()) {
+                totalCreditLimits += Double.parseDouble(creditLimits.get(count));
                 ++totalCount;
             }
         }
 
         double averageCreditLimit = totalCreditLimits / (double)totalCount;
-        return "$" + String.valueOf(Math.round(averageCreditLimit));
+        return "$" + Math.round(averageCreditLimit);
     }
 
     public String getOldestDateOpened() {
@@ -112,10 +109,8 @@ public class TradeLine {
             dateOpenedList.add(eqDate);
         }
 
-        dateOpenedList.sort((a, b) -> {
-            return a.before(b) ? 1 : -1;
-        });
-        return dateOpenedList.isEmpty() ? "" : df.format((Date)dateOpenedList.get(dateOpenedList.size() - 1));
+        dateOpenedList.sort(Date::compareTo);
+        return dateOpenedList.isEmpty() ? "" : df.format(dateOpenedList.get(dateOpenedList.size() - 1));
     }
 
     public String getOldestDateLastActive() {
@@ -155,10 +150,8 @@ public class TradeLine {
             dateLastActiveList.add(eqDate);
         }
 
-        dateLastActiveList.sort((a, b) -> {
-            return a.before(b) ? 1 : -1;
-        });
-        return dateLastActiveList.isEmpty() ? "" : df.format((Date)dateLastActiveList.get(dateLastActiveList.size() - 1));
+        dateLastActiveList.sort(Date::compareTo);
+        return dateLastActiveList.isEmpty() ? "" : df.format(dateLastActiveList.get(dateLastActiveList.size() - 1));
     }
 
     public String getNearestPaymentStatus() {
@@ -198,117 +191,129 @@ public class TradeLine {
         }
     }
 
-
-    public boolean isConsistent(int constant){
-        Constants constants = new Constants();
-        if(constant == constants.ACCOUNT_NUMBER){
-            return this.checkEquality(this.transUnion.getAccountNumer(), this.experian.getAccountNumer(), this.equifax.getAccountNumer());
-        }else if(constant == constants.ACCOUNT_DETAILED_TYPE){
-            return this.checkEquality(this.transUnion.getDetailedAccountType(), this.experian.getDetailedAccountType(), this.equifax.getDetailedAccountType());
-        }else if(constant == constants.ACCOUNT_STATUS){
-            return this.checkEquality(this.transUnion.getAccountStatus(), this.experian.getAccountStatus(), this.equifax.getAccountStatus());
-        }else if(constant == constants.ACCOUNT_TYPE){
-            return this.checkEquality(this.transUnion.getAccountType(), this.experian.getAccountType(), this.equifax.getAccountType());
-        }else if(constant == constants.BALANCE){
-            return this.checkMonetaryConsistency(this.transUnion.getRawBalance(), this.experian.getRawBalance(), this.equifax.getRawBalance());
-        }else if(constant == constants.BUREAU_CODE){
-            return this.checkEquality(this.transUnion.getBeaureuCode(), this.experian.getBeaureuCode(), this.equifax.getBeaureuCode());
-        }else if(constant == constants.CREDIT_LIMIT){
-            return this.checkMonetaryConsistency(this.transUnion.getRawCreditLimit(), this.experian.getRawCreditLimit(), this.equifax.getRawCreditLimit());
-        }else if(constant == constants.DATE_LAST_ACTIVE){
-            return this.checkDateConsistency(this.transUnion.getDateLastActive(), this.experian.getDateLastActive(), this.equifax.getDateLastActive());
-        }else if(constant == constants.DATE_OF_LAST_PAYMENT) {
-            return this.checkDateConsistency(this.transUnion.getDateOfLastPayment(), this.experian.getDateOfLastPayment(), this.equifax.getDateOfLastPayment());
-        }else if(constant == constants.DATE_OPENED){
-            return this.checkDateConsistency(this.transUnion.getDateOpened(), this.experian.getDateOpened(), this.equifax.getDateOpened());
-        }else if(constant == constants.HIGH_CREDIT){
-            return this.checkMonetaryConsistency(this.transUnion.getHighCredit(), this.experian.getHighCredit(), this.equifax.getHighCredit());
-        }else if(constant == constants.LAST_REPORTED){
-            return this.checkDateConsistency(this.transUnion.getLastReported(), this.experian.getLastReported(), this.equifax.getLastReported());
-        }else if(constant == constants.MONTHLY_PAYMENT){
-            return this.checkMonetaryConsistency(this.transUnion.getMonthlyPayment(), this.experian.getMonthlyPayment(), this.equifax.getMonthlyPayment());
-        }else if(constant == constants.PAST_DUE){
-            return this.checkMonetaryConsistency(this.transUnion.getPastDue(), this.experian.getPastDue(), this.equifax.getPastDue());
-        }else if(constant == constants.PAYMENT_STATUS){
-            return this.checkEquality(this.transUnion.getPaymentStatus(), this.experian.getPaymentStatus(), this.equifax.getPaymentStatus());
-        }else if(constant == constants.ACCOUNT_NAME){
-            return this.checkEquality(this.transUnion.getAccountName(), this.experian.getAccountName(), this.equifax.getAccountName());
-        }else if(constant == constants.NUMBER_OF_MONTHS){
-            return this.checkEquality(this.transUnion.getNoOfMonths(), this.experian.getNoOfMonths(), this.equifax.getNoOfMonths());
-        }else if(constant == constants.COMMENTS){
-            return this.checkEquality(this.transUnion.getComments(), this.experian.getComments(), this.equifax.getComments());
-        }
-        else{
-            return false;
+    public boolean isConsistent(int constant) {
+        switch (constant) {
+            case Constants.ACCOUNT_NUMBER:
+                return this.checkEquality(this.transUnion.getAccountNumer(), this.experian.getAccountNumer(), this.equifax.getAccountNumer());
+            case Constants.ACCOUNT_DETAILED_TYPE:
+                return this.checkEquality(this.transUnion.getDetailedAccountType(), this.experian.getDetailedAccountType(), this.equifax.getDetailedAccountType());
+            case Constants.ACCOUNT_STATUS:
+                return this.checkEquality(this.transUnion.getAccountStatus(), this.experian.getAccountStatus(), this.equifax.getAccountStatus());
+            case Constants.ACCOUNT_TYPE:
+                return this.checkEquality(this.transUnion.getAccountType(), this.experian.getAccountType(), this.equifax.getAccountType());
+            case Constants.BALANCE:
+                return this.checkMonetaryConsistency(this.transUnion.getRawBalance(), this.experian.getRawBalance(), this.equifax.getRawBalance());
+            case Constants.BUREAU_CODE:
+                return this.checkEquality(this.transUnion.getBeaureuCode(), this.experian.getBeaureuCode(), this.equifax.getBeaureuCode());
+            case Constants.CREDIT_LIMIT:
+                return this.checkMonetaryConsistency(this.transUnion.getRawCreditLimit(), this.experian.getRawCreditLimit(), this.equifax.getRawCreditLimit());
+            case Constants.DATE_OF_LAST_PAYMENT:
+                return this.checkDateConsistency(this.transUnion.getDateOfLastPayment(), this.experian.getDateOfLastPayment(), this.equifax.getDateOfLastPayment());
+            case Constants.DATE_LAST_ACTIVE:
+                return this.checkDateConsistency(this.transUnion.getDateLastActive(), this.experian.getDateLastActive(), this.equifax.getDateLastActive());
+            case Constants.DATE_OPENED:
+                return this.checkDateConsistency(this.transUnion.getDateOpened(), this.experian.getDateOpened(), this.equifax.getDateOpened());
+            case Constants.HIGH_CREDIT:
+                return this.checkMonetaryConsistency(this.transUnion.getHighCredit(), this.experian.getHighCredit(), this.equifax.getHighCredit());
+            case Constants.LAST_REPORTED:
+                return this.checkDateConsistency(this.transUnion.getLastReported(), this.experian.getLastReported(), this.equifax.getLastReported());
+            case Constants.MONTHLY_PAYMENT:
+                return this.checkMonetaryConsistency(this.transUnion.getMonthlyPayment(), this.experian.getMonthlyPayment(), this.equifax.getMonthlyPayment());
+            case Constants.PAST_DUE:
+                return this.checkMonetaryConsistency(this.transUnion.getPastDue(), this.experian.getPastDue(), this.equifax.getPastDue());
+            case Constants.PAYMENT_STATUS:
+                return this.checkEquality(this.transUnion.getPaymentStatus(), this.experian.getPaymentStatus(), this.equifax.getPaymentStatus());
+            case Constants.ACCOUNT_NAME:
+                return this.checkEquality(this.transUnion.getAccountName(), this.experian.getAccountName(), this.equifax.getAccountName());
+            case Constants.NUMBER_OF_MONTHS:
+                return this.checkEquality(this.transUnion.getNoOfMonths(), this.experian.getNoOfMonths(), this.equifax.getNoOfMonths());
+            case Constants.COMMENTS:
+                return this.checkEquality(this.transUnion.getComments(), this.experian.getComments(), this.equifax.getComments());
+                default:
+                    return false;
         }
     }
 
 
     private boolean checkEquality(String transUnion, String experian, String equifax) {
-        // if the account number is empty, then do not check for the corresponding equality consistency.
-        if(this.transUnion.getAccountNumer().isEmpty()) transUnion = null;
-        if(this.experian.getAccountNumer().isEmpty()) experian = null;
-        if(this.equifax.getAccountNumer().isEmpty()) equifax = null;
+        if (this.transUnion.getAccountNumer().isEmpty()) {
+            transUnion = null;
+        }
+
+        if (this.experian.getAccountNumer().isEmpty()) {
+            experian = null;
+        }
+
+        if (this.equifax.getAccountNumer().isEmpty()) {
+            equifax = null;
+        }
 
         List<String> rawValues = Arrays.asList(transUnion, experian, equifax);
-        List<String> processedValues = rawValues
-                .stream()
-                .filter(Objects::nonNull)
-                .map(String::trim).collect(Collectors.toList());
+        List<String> processedValues = rawValues.stream().filter(Objects::nonNull).map(String::trim).collect(Collectors.toList());
         if (!processedValues.isEmpty()) {
             String firstVal = processedValues.get(0);
-            return processedValues.stream().allMatch((val) -> val.equalsIgnoreCase(firstVal));
+            return processedValues.stream().allMatch((val) -> {
+                return val.equalsIgnoreCase(firstVal);
+            });
         } else {
             return true;
         }
     }
 
     private boolean checkMonetaryConsistency(String transUnion, String experian, String equifax) {
-        // if the account number is empty, then do not check for the corresponding monetary consistency.
-        if(this.transUnion.getAccountNumer().isEmpty()) transUnion = null;
-        if(this.experian.getAccountNumer().isEmpty()) experian = null;
-        if(this.equifax.getAccountNumer().isEmpty()) equifax = null;
+        if (this.transUnion.getAccountNumer().isEmpty()) {
+            transUnion = null;
+        }
+
+        if (this.experian.getAccountNumer().isEmpty()) {
+            experian = null;
+        }
+
+        if (this.equifax.getAccountNumer().isEmpty()) {
+            equifax = null;
+        }
 
         List<String> monies = Arrays.asList(transUnion, experian, equifax);
-        List<String> processedMonies = monies.stream()
-                .filter(Objects::nonNull)
-                .map(String::trim)
-                .collect(Collectors.toList());
+        List<String> processedMonies = monies.stream().filter(Objects::nonNull).map(String::trim).collect(Collectors.toList());
         if (!processedMonies.isEmpty()) {
             String firstMoney = processedMonies.get(0);
-            return processedMonies.stream().allMatch((p) -> p.equals(firstMoney));
+            return processedMonies.stream().allMatch((p) -> {
+                return p.equals(firstMoney);
+            });
         } else {
             return true;
         }
     }
 
     private boolean checkDateConsistency(String transUnion, String experian, String equifax) {
-        // if the account number is empty, then do not check for the corresponding monetary consistency.
-        if(this.transUnion.getAccountNumer().isEmpty()) transUnion = null;
-        if(this.experian.getAccountNumer().isEmpty()) experian = null;
-        if(this.equifax.getAccountNumer().isEmpty()) equifax = null;
+        if (this.transUnion.getAccountNumer().isEmpty()) {
+            transUnion = null;
+        }
+
+        if (this.experian.getAccountNumer().isEmpty()) {
+            experian = null;
+        }
+
+        if (this.equifax.getAccountNumer().isEmpty()) {
+            equifax = null;
+        }
 
         List<String> dates = Arrays.asList(transUnion, experian, equifax);
-        List<String> processedDates = dates
-                .stream()
-                .filter(Objects::nonNull)
-                .map(String::trim)
-                .map((date) -> {
-                    if(date.isEmpty()){
-                        return date;
-                    }
-                    return date.substring(0, 3) + date.substring(5);
+        List<String> processedDates = dates.stream().filter(Objects::nonNull).map(String::trim).map((date) -> {
+            return date.isEmpty() ? date : date.substring(0, 3) + date.substring(5);
         }).collect(Collectors.toList());
         if (!processedDates.isEmpty()) {
-            String firstValue = (String)processedDates.get(0);
-            return processedDates.stream().allMatch((date) -> date.equals(firstValue));
+            String firstValue = processedDates.get(0);
+            return processedDates.stream().allMatch((date) -> {
+                return date.equals(firstValue);
+            });
         } else {
             return true;
         }
     }
 
     public String getRowStyle(boolean isConsistent) {
-        return isConsistent ? "background-color: white;" : "background-color: #ffff99";
+        return isConsistent ? "background-color: white;" : "background-color: #ffb7b3";
     }
 
     public String getLateStyle() {
@@ -322,22 +327,20 @@ public class TradeLine {
     }
 
     public String getDerogatoryStyle() {
-        String returnStyle = !this.transUnion.getAccountStatus().contains("Derogatory")
-                && !this.experian.getAccountStatus().contains("Derogatory") &&
-                !this.equifax.getAccountStatus().contains("Derogatory") ? "background-color: white" : "background-color: #ffb7b3";
-
-        // so, there is no account with the status "Derogatory", so check for consistency
-        if(returnStyle.equals("background-color: white")){
-            boolean allMatch = Stream.of(this.transUnion.getAccountStatus(), this.experian.getAccountStatus(), this.equifax.getAccountStatus())
-                    .map(status -> status.trim().toLowerCase())
-                    .filter(status -> !status.isEmpty())
-                    .allMatch(status -> status.equals(this.transUnion.getAccountStatus().trim().toLowerCase()));
-            if(!allMatch){
+        String returnStyle = !this.transUnion.getAccountStatus().contains("Derogatory") && !this.experian.getAccountStatus().contains("Derogatory") && !this.equifax.getAccountStatus().contains("Derogatory") ? "background-color: white" : "background-color: #ffb7b3";
+        if (returnStyle.equals("background-color: white")) {
+            boolean allMatch = Stream.of(this.transUnion.getAccountStatus(), this.experian.getAccountStatus(), this.equifax.getAccountStatus()).map((status) -> {
+                return status.trim().toLowerCase();
+            }).filter((status) -> {
+                return !status.isEmpty();
+            }).allMatch((status) -> {
+                return status.equals(this.transUnion.getAccountStatus().trim().toLowerCase());
+            });
+            if (!allMatch) {
                 returnStyle = "background-color: #ffff99";
             }
         }
 
         return returnStyle;
-
     }
 }

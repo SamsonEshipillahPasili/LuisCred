@@ -15,9 +15,6 @@ public class CreditRestController {
     @Autowired
     private ReportRepository reportRepository;
 
-    public CreditRestController() {
-    }
-
     @PostMapping({"/credit/upload/v1"})
     public String upload(@RequestParam MultipartFile file, @RequestParam String email, @RequestParam String phoneNumber, @RequestParam String clientName, @RequestParam String clientAddress) throws IOException {
         if (!file.isEmpty() && !email.isEmpty() && !phoneNumber.isEmpty() && !clientName.isEmpty() && !clientAddress.isEmpty()) {

@@ -8,7 +8,7 @@ import org.jsoup.select.Elements;
 
 public class CreditorContactFactory {
     private final Document document;
-    private final List<CreditorContact> creditorContacts = new ArrayList();
+    private final List<CreditorContact> creditorContacts = new ArrayList<>();
 
     public CreditorContactFactory(Document document) {
         this.document = document;
@@ -19,16 +19,16 @@ public class CreditorContactFactory {
         Elements rows;
         try {
             Elements elements = this.document.select("[ng-if='subscribers.length > 0']");
-            rows = ((Element)elements.get(0)).child(0).children();
-        } catch (Exception var5) {
+            rows = elements.get(0).child(0).children();
+        } catch (Exception var4) {
             rows = new Elements();
         }
 
         for(int count = 1; count < rows.size(); ++count) {
             CreditorContact creditorContact = new CreditorContact();
-            creditorContact.setCreditorName(((Element)rows.get(count)).child(0).text());
-            creditorContact.setAddress(((Element)rows.get(count)).child(1).text());
-            creditorContact.setPhoneNumber(((Element)rows.get(count)).child(2).text());
+            creditorContact.setCreditorName(rows.get(count).child(0).text());
+            creditorContact.setAddress(rows.get(count).child(1).text());
+            creditorContact.setPhoneNumber(rows.get(count).child(2).text());
             this.creditorContacts.add(creditorContact);
         }
 

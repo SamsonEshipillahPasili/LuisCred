@@ -1,13 +1,9 @@
 package com.credit.reports.pdf;
 
-import com.credit.reports.parser.AccountDetailedTypes;
-import com.credit.reports.parser.AccountInformation;
-import com.credit.reports.parser.Constants;
-import com.credit.reports.parser.CreditProfile;
-import com.credit.reports.parser.HtmlCreditReport;
-import com.credit.reports.parser.Inquiry;
-import com.credit.reports.parser.TradeLine;
-import com.credit.reports.parser.TradeLineFactory;
+import com.credit.reports.parser.*;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 import java.io.InputStream;
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -18,13 +14,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 
 public class ReportData implements Serializable {
     private final HtmlCreditReport htmlCreditReport;
@@ -52,7 +43,7 @@ public class ReportData implements Serializable {
     public String getName() {
         try {
             return this.htmlCreditReport.personalInformationFactory().transUnion().getName().replace("-", "");
-        } catch (Exception var2) {
+        } catch (Exception e) {
             return "";
         }
     }
@@ -106,8 +97,8 @@ public class ReportData implements Serializable {
     public String getAverageAccountAges() {
         try {
             return (new TradeLineFactory(this.htmlCreditReport.accountInformationFactory())).averageAccountAge();
-        } catch (ParseException var2) {
-            Logger.getLogger(ReportData.class.getName()).log(Level.SEVERE, (String)null, var2);
+        } catch (ParseException e) {
+            Logger.getLogger(ReportData.class.getName()).log(Level.SEVERE, null, e);
             return "Unavailable";
         }
     }
@@ -126,13 +117,13 @@ public class ReportData implements Serializable {
             try {
                 Date date = df.parse(dateOfInquiry);
                 Date currentDate = new Date();
-                long maximumDifference = df.parse("01/01/2018").getTime() - df.parse("01/01/2017").getTime();
+                long maximumDifference = df.parse("01/01/2018").getTime() - df.parse("01/01/2016").getTime();
                 long difference = currentDate.getTime() - date.getTime();
                 if (difference <= maximumDifference) {
                     atomicInteger.incrementAndGet();
                 }
-            } catch (ParseException var10) {
-                Logger.getLogger(ReportData.class.getName()).log(Level.SEVERE, (String)null, var10);
+            } catch (ParseException pe) {
+                Logger.getLogger(ReportData.class.getName()).log(Level.SEVERE, null, pe);
             }
 
         });
@@ -141,17 +132,14 @@ public class ReportData implements Serializable {
 
     public String getInquiryRating() {
         int hardInquiries = Integer.parseInt(this.getHardInquiries());
-
         if (hardInquiries >= 0 && hardInquiries <= 1) {
             return "Excellent";
         } else if (hardInquiries >= 2 && hardInquiries <= 3) {
             return "Good";
         } else if (hardInquiries >= 4 && hardInquiries <= 5) {
             return "Fair";
-        } else if (hardInquiries >= 6 && hardInquiries <= 7) {
-            return "Poor";
         } else {
-            return hardInquiries >= 8 ? "Bad" : "Unavailable";
+            return hardInquiries >= 6 && hardInquiries <= 7 ? "Poor" : "Bad";
         }
     }
 
@@ -161,7 +149,7 @@ public class ReportData implements Serializable {
 
     public List<TradeLine> getNegativeTradeLinesImproved() {
         List<TradeLine> allTradeLines = this.getTradeLines();
-        List<TradeLine> negativeTradeLines = new ArrayList();
+        List<TradeLine> negativeTradeLines = new ArrayList<>();
         allTradeLines.forEach((tradeLine) -> {
             if (this.isNegativeAccount(tradeLine.getTransUnion())) {
                 negativeTradeLines.add(tradeLine);
@@ -177,8 +165,32 @@ public class ReportData implements Serializable {
 
     public List<TradeLine> getPositiveTradeLines() {
         List<TradeLine> allTradeLines = this.getTradeLines();
-        return (List)allTradeLines.stream().filter((tradeLine) ->
-                !this.isNegativeAccount(tradeLine.getTransUnion()) && !this.isNegativeAccount(tradeLine.getExperian()) && !this.isNegativeAccount(tradeLine.getEquifax())).collect(Collectors.toList());
+        List<TradeLine> list = new ArrayList<>();
+
+        for (TradeLine tradeLine : allTradeLines) {
+            if (!this.isNegativeAccount(tradeLine.getTransUnion()) && !this.isNegativeAccount(tradeLine.getExperian()) && !this.isNegativeAccount(tradeLine.getEquifax())) {
+                list.add(tradeLine);
+            }
+        }
+
+        return list;
+    }
+
+    public String getPaymentHistoryQuality() {
+        int tradeLines = this.getTradeLines().size();
+        int positiveTradeLines = this.getPositiveTradeLines().size();
+        double percentage = (double)(positiveTradeLines * 100 / tradeLines);
+        if (percentage >= 90.0D && percentage <= 100.0D) {
+            return "Excellent";
+        } else if (percentage >= 80.0D && percentage <= 89.0D) {
+            return "Good";
+        } else if (percentage >= 70.0D && percentage <= 79.0D) {
+            return "Fair";
+        } else if (percentage >= 60.0D && percentage <= 69.0D) {
+            return "Poor";
+        } else {
+            return percentage < 60.0D ? "Bad" : "Out of Range";
+        }
     }
 
     public String getPaymentHistoryPercentage() {
@@ -209,7 +221,7 @@ public class ReportData implements Serializable {
 
     public List<TradeLine> getRevolvingDebitCreditRatios() {
         List<TradeLine> tradeLines = this.getTradeLines();
-        List<TradeLine> revolvingTradeLines = new ArrayList();
+        List<TradeLine> revolvingTradeLines = new ArrayList<>();
         tradeLines.forEach((tradeLine) -> {
             if (tradeLine.getTransUnion().getAccountType().contains("Revolving") || tradeLine.getExperian().getAccountType().contains("Revolving") || tradeLine.getEquifax().getAccountType().contains("Revolving")) {
                 revolvingTradeLines.add(tradeLine);

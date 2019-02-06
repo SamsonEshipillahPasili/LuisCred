@@ -1,15 +1,17 @@
 package com.credit.reports.controllers;
 
-import com.credit.reports.entities.CRUser;
 import com.credit.reports.entities.Report;
 import com.credit.reports.repositories.CRUserRepository;
 import com.credit.reports.repositories.ReportRepository;
 import com.credit.reports.services.CRUserService;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.function.Consumer;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,22 +19,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class CreditAnalysisToolController {
+public class CreditAnalysisToolController implements ApplicationContextAware {
     @Autowired
     private ReportRepository reportRepository;
     @Autowired
     private CRUserService CRUserService;
     @Autowired
     private CRUserRepository crUserRepository;
+    private ApplicationContext ctx;
 
 
     @PostMapping({"/delete_report"})
     public String deleteReport(Model model, @RequestParam String deleteKey) {
         model.addAttribute("reportService", this.reportRepository);
-        if(this.reportRepository.existsById(deleteKey)){
-            // only delete if it exists, other wise just return the page
+        if (this.reportRepository.existsById(deleteKey)) {
             this.reportRepository.deleteById(deleteKey);
         }
+
         return "record_history";
     }
 
@@ -53,7 +56,6 @@ public class CreditAnalysisToolController {
 
     @GetMapping({"/dashboard.html"})
     public String dashboard() {
-        //CRUser crUser = this.crUserRepository.findById("admin").get();
         return "dashboard";
     }
 
@@ -97,5 +99,23 @@ public class CreditAnalysisToolController {
         } else {
             return this.CRUserService.updatePassword(oldPassword, newPassword) ? "redirect:/dashboard.html?password_updated" : "redirect:/dashboard.html?password_error";
         }
+    }
+
+    @GetMapping({"/exit"})
+    public String shutdownContext() {
+        (new Thread(() -> {
+            try {
+                Thread.sleep(2000L);
+                ((ConfigurableApplicationContext)this.ctx).close();
+            } catch (InterruptedException var2) {
+                var2.printStackTrace();
+            }
+
+        })).start();
+        return "redirect:/log_out.html";
+    }
+
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.ctx = applicationContext;
     }
 }

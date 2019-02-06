@@ -19,30 +19,30 @@ public class CreditScoreFactory {
 
         Elements rows;
         try {
-            Element tableBody = ((Element)this.document.select("#CreditScore").get(0)).nextElementSibling().nextElementSibling().child(0);
+            Element tableBody = this.document.select("#CreditScore").get(0).nextElementSibling().nextElementSibling().child(0);
             rows = tableBody.children();
-        } catch (Exception var10) {
+        } catch (Exception var9) {
             rows = new Elements();
         }
 
         for(int count = 1; count < rows.size(); ++count) {
-            Element currentRow = (Element)rows.get(count);
+            Element currentRow = rows.get(count);
             Elements currentColumns = currentRow.children();
             switch(count) {
                 case 1:
-                    transUnion.setCreditScoreValue(((Element)currentColumns.get(1)).text());
-                    experian.setCreditScoreValue(((Element)currentColumns.get(2)).text());
-                    equifax.setCreditScoreValue(((Element)currentColumns.get(3)).text());
+                    transUnion.setCreditScoreValue(currentColumns.get(1).text());
+                    experian.setCreditScoreValue(currentColumns.get(2).text());
+                    equifax.setCreditScoreValue(currentColumns.get(3).text());
                     break;
                 case 2:
-                    transUnion.setLenderRank(((Element)currentColumns.get(1)).text());
-                    experian.setLenderRank(((Element)currentColumns.get(2)).text());
-                    equifax.setLenderRank(((Element)currentColumns.get(3)).text());
+                    transUnion.setLenderRank(currentColumns.get(1).text());
+                    experian.setLenderRank(currentColumns.get(2).text());
+                    equifax.setLenderRank(currentColumns.get(3).text());
                     break;
                 case 3:
-                    transUnion.setScoreScale(((Element)currentColumns.get(1)).text());
-                    experian.setScoreScale(((Element)currentColumns.get(2)).text());
-                    equifax.setScoreScale(((Element)currentColumns.get(3)).text());
+                    transUnion.setScoreScale(currentColumns.get(1).text());
+                    experian.setScoreScale(currentColumns.get(2).text());
+                    equifax.setScoreScale(currentColumns.get(3).text());
             }
         }
 
@@ -52,14 +52,14 @@ public class CreditScoreFactory {
     }
 
     public CreditScore transUnion() {
-        return (CreditScore)this.csMap.get("transUnion");
+        return this.csMap.get("transUnion");
     }
 
     public CreditScore experian() {
-        return (CreditScore)this.csMap.get("experian");
+        return this.csMap.get("experian");
     }
 
     public CreditScore equifax() {
-        return (CreditScore)this.csMap.get("equifax");
+        return this.csMap.get("equifax");
     }
 }

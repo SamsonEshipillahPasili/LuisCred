@@ -15,16 +15,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CRUserRepository CRUserRepository;
 
-    public WebSecurityConfig() {
-    }
-
     public void configure(AuthenticationManagerBuilder builder) throws Exception {
-        builder.userDetailsService((username) -> {
-            return new CreditReportUserDetails((CRUser)this.CRUserRepository.findById(username).get());
-        });
+        builder.userDetailsService((username) -> new CreditReportUserDetails(this.CRUserRepository.findById(username).get()));
     }
 
     public void configure(HttpSecurity http) throws Exception {
-        ((HttpSecurity)((HttpSecurity)((HttpSecurity)((AuthorizedUrl)((HttpSecurity)((HttpSecurity)((AuthorizedUrl)((AuthorizedUrl)http.authorizeRequests().antMatchers(new String[]{"/*.css", "/*.js"})).permitAll().antMatchers(new String[]{"/", "/search.html", "/record_history.html", "/clients.html", "/disputes.html", "/dashboard.html", "/report/pdf/*/v1", "/report/*/v1"})).authenticated().and()).formLogin().loginPage("/log_in.html").and()).authorizeRequests().antMatchers(new String[]{"/report", "/report/pdf"})).authenticated().and()).httpBasic().and()).logout().logoutUrl("/log_out.html").and()).csrf().disable();
+        ((HttpSecurity)((AuthorizedUrl) ((HttpSecurity)((AuthorizedUrl)((AuthorizedUrl)
+                http.authorizeRequests()
+                        .antMatchers(new String[]{"/*.css", "/*.js"}))
+                .permitAll()
+                .antMatchers(new String[]{"/", "/search.html", "/record_history.html", "/clients.html", "/disputes.html", "/dashboard.html", "/report/pdf/*/v1", "/report/*/v1"}))
+                .authenticated()
+                .and())
+                .formLogin()
+                .loginPage("/log_in.html")
+                .and()
+                .authorizeRequests()
+                .antMatchers(new String[]{"/report", "/report/pdf"}))
+                .authenticated()
+                .and())
+                .httpBasic()
+                .and()
+                .logout()
+                .logoutUrl("/log_out.html")
+                .and()
+                .csrf()
+                .disable();
     }
 }

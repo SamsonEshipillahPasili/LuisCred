@@ -5,12 +5,9 @@ import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.net.URL;
 import java.net.URLConnection;
-
-import com.lowagie.text.pdf.PdfReader;
 import org.w3c.dom.Document;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 import org.xhtmlrenderer.resource.XMLResource;
-import org.xhtmlrenderer.simple.PDFRenderer;
 import org.xml.sax.InputSource;
 import sun.misc.BASE64Encoder;
 
@@ -24,23 +21,16 @@ public class PdfGenerator {
         CR_UserAgentCallBack userAgentCallBack = new CR_UserAgentCallBack(renderer.getOutputDevice());
         userAgentCallBack.setSharedContext(renderer.getSharedContext());
         renderer.getSharedContext().setUserAgentCallback(userAgentCallBack);
-
         URL inputSourceURL = new URL(url);
         String encoding = (new BASE64Encoder()).encode("flyingSaucer:flyingSaucerPassword".getBytes());
         URLConnection uc = inputSourceURL.openConnection();
         uc.setRequestProperty("Authorization", "Basic " + encoding);
         InputSource inputSource = new InputSource(new BufferedInputStream(uc.getInputStream()));
+
         Document document = XMLResource.load(inputSource).getDocument();
-
         renderer.setDocument(document, url);
-
         renderer.layout();
         renderer.createPDF(bufferedOutputStream, true, 1);
-
         return pdfByteArrayOutputStream.toByteArray();
-    }
-
-    static class TesInputSource extends InputSource{
-
     }
 }

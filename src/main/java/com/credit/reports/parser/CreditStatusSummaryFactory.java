@@ -12,72 +12,72 @@ public class CreditStatusSummaryFactory {
 
     public CreditStatusSummaryFactory(Document document) {
         this.document = document;
-        this.cssMap = new HashMap();
+        this.cssMap = new HashMap<>();
         CreditStatusSummary transUnion = new CreditStatusSummary();
         CreditStatusSummary experian = new CreditStatusSummary();
         CreditStatusSummary equifax = new CreditStatusSummary();
 
         Elements rows;
         try {
-            Element tableBody = ((Element)this.document.select("#Summary").get(0)).nextElementSibling().nextElementSibling().child(0);
+            Element tableBody = this.document.select("#Summary").get(0).nextElementSibling().nextElementSibling().child(0);
             rows = tableBody.children();
-        } catch (Exception var10) {
+        } catch (Exception var9) {
             rows = new Elements();
         }
 
         for(int count = 1; count < rows.size(); ++count) {
-            Element currentRow = (Element)rows.get(count);
+            Element currentRow = rows.get(count);
             Elements currentRowColumns = currentRow.children();
             switch(count) {
                 case 1:
-                    transUnion.setTotalAccounts(((Element)currentRowColumns.get(1)).text());
-                    experian.setTotalAccounts(((Element)currentRowColumns.get(2)).text());
-                    equifax.setTotalAccounts(((Element)currentRowColumns.get(3)).text());
+                    transUnion.setTotalAccounts(currentRowColumns.get(1).text());
+                    experian.setTotalAccounts(currentRowColumns.get(2).text());
+                    equifax.setTotalAccounts(currentRowColumns.get(3).text());
                     break;
                 case 2:
-                    transUnion.setOpenAccounts(((Element)currentRowColumns.get(1)).text());
-                    experian.setOpenAccounts(((Element)currentRowColumns.get(2)).text());
-                    equifax.setOpenAccounts(((Element)currentRowColumns.get(3)).text());
+                    transUnion.setOpenAccounts(currentRowColumns.get(1).text());
+                    experian.setOpenAccounts(currentRowColumns.get(2).text());
+                    equifax.setOpenAccounts(currentRowColumns.get(3).text());
                     break;
                 case 3:
-                    transUnion.setClosedAccounts(((Element)currentRowColumns.get(1)).text());
-                    experian.setClosedAccounts(((Element)currentRowColumns.get(2)).text());
-                    equifax.setClosedAccounts(((Element)currentRowColumns.get(3)).text());
+                    transUnion.setClosedAccounts(currentRowColumns.get(1).text());
+                    experian.setClosedAccounts(currentRowColumns.get(2).text());
+                    equifax.setClosedAccounts(currentRowColumns.get(3).text());
                     break;
                 case 4:
-                    transUnion.setDelinquent(((Element)currentRowColumns.get(1)).text());
-                    experian.setDelinquent(((Element)currentRowColumns.get(2)).text());
-                    equifax.setDelinquent(((Element)currentRowColumns.get(3)).text());
+                    transUnion.setDelinquent(currentRowColumns.get(1).text());
+                    experian.setDelinquent(currentRowColumns.get(2).text());
+                    equifax.setDelinquent(currentRowColumns.get(3).text());
                     break;
                 case 5:
-                    transUnion.setDerogatory(((Element)currentRowColumns.get(1)).text());
-                    experian.setDerogatory(((Element)currentRowColumns.get(2)).text());
-                    equifax.setDerogatory(((Element)currentRowColumns.get(3)).text());
+                    transUnion.setDerogatory(currentRowColumns.get(1).text());
+                    experian.setDerogatory(currentRowColumns.get(2).text());
+                    equifax.setDerogatory(currentRowColumns.get(3).text());
                     break;
                 case 6:
-                    transUnion.setCollection(((Element)currentRowColumns.get(1)).text());
-                    experian.setCollection(((Element)currentRowColumns.get(2)).text());
-                    equifax.setCollection(((Element)currentRowColumns.get(3)).text());
+                    transUnion.setCollection(currentRowColumns.get(1).text());
+                    experian.setCollection(currentRowColumns.get(2).text());
+                    equifax.setCollection(currentRowColumns.get(3).text());
                     break;
                 case 7:
-                    transUnion.setBalances(((Element)currentRowColumns.get(1)).text());
-                    experian.setBalances(((Element)currentRowColumns.get(2)).text());
-                    equifax.setBalances(((Element)currentRowColumns.get(3)).text());
+                    transUnion.setBalances(currentRowColumns.get(1).text());
+                    experian.setBalances(currentRowColumns.get(2).text());
+                    equifax.setBalances(currentRowColumns.get(3).text());
                     break;
                 case 8:
-                    transUnion.setPayments(((Element)currentRowColumns.get(1)).text());
-                    experian.setPayments(((Element)currentRowColumns.get(2)).text());
-                    equifax.setPayments(((Element)currentRowColumns.get(3)).text());
+                    transUnion.setPayments(currentRowColumns.get(1).text());
+                    experian.setPayments(currentRowColumns.get(2).text());
+                    equifax.setPayments(currentRowColumns.get(3).text());
                     break;
                 case 9:
-                    transUnion.setPublicRecords(((Element)currentRowColumns.get(1)).text());
-                    experian.setPublicRecords(((Element)currentRowColumns.get(2)).text());
-                    equifax.setPublicRecords(((Element)currentRowColumns.get(3)).text());
+                    transUnion.setPublicRecords(currentRowColumns.get(1).text());
+                    experian.setPublicRecords(currentRowColumns.get(2).text());
+                    equifax.setPublicRecords(currentRowColumns.get(3).text());
                     break;
                 case 10:
-                    transUnion.setInquiries(((Element)currentRowColumns.get(1)).text());
-                    experian.setInquiries(((Element)currentRowColumns.get(2)).text());
-                    equifax.setInquiries(((Element)currentRowColumns.get(3)).text());
+                    transUnion.setInquiries(currentRowColumns.get(1).text());
+                    experian.setInquiries(currentRowColumns.get(2).text());
+                    equifax.setInquiries(currentRowColumns.get(3).text());
             }
         }
 
@@ -87,14 +87,14 @@ public class CreditStatusSummaryFactory {
     }
 
     public CreditStatusSummary transUnion() {
-        return (CreditStatusSummary)this.cssMap.get("transUnion");
+        return this.cssMap.get("transUnion");
     }
 
     public CreditStatusSummary experian() {
-        return (CreditStatusSummary)this.cssMap.get("experian");
+        return this.cssMap.get("experian");
     }
 
     public CreditStatusSummary equifax() {
-        return (CreditStatusSummary)this.cssMap.get("equifax");
+        return this.cssMap.get("equifax");
     }
 }

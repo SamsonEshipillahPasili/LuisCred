@@ -5,9 +5,6 @@ public class CreditScore {
     private String lenderRank;
     private String scoreScale;
 
-    public CreditScore() {
-    }
-
     public String getCreditScoreValue() {
         return this.creditScoreValue;
     }

@@ -67,7 +67,6 @@ public class ReportDataProxy implements Serializable {
         this.inputHtmlFileBytes = inputHtmlFileBytes;
     }
 
-
     public String toString() {
         return "ReportDataProxy(phoneNumber=" + this.getPhoneNumber() + ", email=" + this.getEmail() + ", clientName=" + this.getClientName() + ", clientAddress=" + this.getClientAddress() + ", constants=" + this.getConstants() + ", inputHtmlFileBytes=" + Arrays.toString(this.getInputHtmlFileBytes()) + ")";
     }

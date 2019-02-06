@@ -21,7 +21,6 @@ public class CreditAnalysisToolApplication extends Application {
 
     public static void main(String[] args) {
         launch(args);
-
     }
 
     @Override

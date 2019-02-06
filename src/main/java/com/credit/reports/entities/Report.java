@@ -33,7 +33,8 @@ public class Report implements Serializable {
         this.dateGenerated = dateFormat.format(new Date());
     }
 
-    public Report(){} // needed for JPA to work.
+    public Report() {
+    }
 
     public String getClientName() {
         return this.reportDataProxy.getClientName();
@@ -41,7 +42,6 @@ public class Report implements Serializable {
 
     public String documentPath() {
         return "/report/pdf/" + this.id;
-
     }
 
     public String getDateGenerated() {
@@ -75,7 +75,6 @@ public class Report implements Serializable {
     public void setDocumentBytes(byte[] documentBytes) {
         this.documentBytes = documentBytes;
     }
-
 
     public String toString() {
         return "Report(dateGenerated=" + this.getDateGenerated() + ", id=" + this.getId() + ", reportDataProxy=" + this.getReportDataProxy() + ", documentBytes=" + Arrays.toString(this.getDocumentBytes()) + ")";

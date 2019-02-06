@@ -17,7 +17,7 @@ public class DefaultAccountLoader implements CommandLineRunner {
 
 
 
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         CRUser CRUser;
         if (!this.crUserRepository.existsById("admin")) {
             CRUser = new CRUser();

@@ -13,6 +13,9 @@ public class CRUser implements Serializable {
     @Column
     private String password;
 
+    public CRUser() {
+    }
+
     public String getUserName() {
         return this.userName;
     }

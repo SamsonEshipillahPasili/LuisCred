@@ -10,9 +10,6 @@ public class PersonalInformation {
     private String previousAddresses = "";
     private String employers = "";
 
-    public PersonalInformation() {
-    }
-
     public String getCreditReportDate() {
         return this.creditReportDate.replace("-", "");
     }

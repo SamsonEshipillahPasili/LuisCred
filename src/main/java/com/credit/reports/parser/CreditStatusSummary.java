@@ -12,8 +12,6 @@ public class CreditStatusSummary {
     private String publicRecords;
     private String inquiries;
 
-    public CreditStatusSummary() {
-    }
 
     public String getTotalAccounts() {
         return this.totalAccounts;

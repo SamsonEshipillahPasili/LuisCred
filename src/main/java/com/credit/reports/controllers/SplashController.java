@@ -1,57 +1,42 @@
 package com.credit.reports.controllers;
 
 import com.jfoenix.controls.JFXSpinner;
-import javafx.application.Platform;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 
 public class SplashController implements Initializable {
     @FXML
     private JFXSpinner spinner;
-
     private ByteArrayOutputStream byteArrayOutputStream;
-
-
-
     private Runnable runnable = () -> {
-        Runnable spinnerUpdater = new Runnable() {
-            @Override
-            public void run() {
-                int length = byteArrayOutputStream.toString().split("\n").length;
-                spinner.setProgress(length / 70d);
-            }
+        Runnable spinnerUpdater = () -> {
+            int length = SplashController.this.byteArrayOutputStream.toString().split("\n").length;
+            SplashController.this.spinner.setProgress((double)length / 70.0D);
         };
         Thread thread = new Thread(spinnerUpdater);
         thread.setName("Spinner Updater");
-        while(true) {
 
+        do {
             try {
-                Thread.sleep(500);
+                Thread.sleep(500L);
                 Platform.runLater(thread);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            } catch (InterruptedException var4) {
+                var4.printStackTrace();
             }
-            if(spinner.getProgress() >= 1){
-                break;
-            }
-        }
+        } while(this.spinner.getProgress() < 1.0D);
+
     };
 
-    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        byteArrayOutputStream  =  new ByteArrayOutputStream();
-        System.setOut(new PrintStream(byteArrayOutputStream));
-        Thread thread = new Thread(runnable);
+        this.byteArrayOutputStream = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(this.byteArrayOutputStream));
+        Thread thread = new Thread(this.runnable);
         thread.setName("Init Spinner Updater");
         thread.start();
-
     }
-
 }

@@ -11,12 +11,9 @@ public class CRUserService {
     @Autowired
     private CRUserRepository CRUserRepository;
 
-    public CRUserService() {
-    }
-
     public boolean updatePassword(String oldPassword, String newPassword) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        CRUser CRUser = (CRUser)this.CRUserRepository.findById("admin").get();
+        CRUser CRUser = this.CRUserRepository.findById("admin").get();
         if (passwordEncoder.matches(oldPassword, CRUser.getPassword())) {
             CRUser.setPassword(passwordEncoder.encode(newPassword));
             this.CRUserRepository.save(CRUser);
@@ -27,6 +24,6 @@ public class CRUserService {
     }
 
     public String getPassword() {
-        return ((CRUser)this.CRUserRepository.findById("admin").get()).getPassword();
+        return this.CRUserRepository.findById("admin").get().getPassword();
     }
 }

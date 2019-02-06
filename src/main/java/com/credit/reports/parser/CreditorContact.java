@@ -5,9 +5,6 @@ public class CreditorContact {
     private String address;
     private String phoneNumber;
 
-    public CreditorContact() {
-    }
-
     public String getCreditorName() {
         return this.creditorName;
     }

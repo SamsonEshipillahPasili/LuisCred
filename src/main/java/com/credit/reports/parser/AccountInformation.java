@@ -21,8 +21,6 @@ public class AccountInformation {
     private String dateOfLastPayment;
     private PaymentHistory paymentHistory;
 
-    public AccountInformation() {
-    }
 
     public String getAccountName() {
         return this.accountName.replace("-", "");

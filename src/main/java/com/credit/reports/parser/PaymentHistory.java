@@ -1,53 +1,42 @@
 package com.credit.reports.parser;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.regex.Pattern;
 
-/**
- *
- * @author eshipillah
- */
 public class PaymentHistory {
-
-    private final List<String> orderedMonthsList;
-    private final List<String> orderedYearList;
-    private final List<String> orderedPaymentList;
-
-    public PaymentHistory() {
-        orderedMonthsList = new ArrayList<>();
-        orderedYearList = new ArrayList<>();
-        orderedPaymentList = new ArrayList<>();
-    }
+    private final List<String> orderedMonthsList = new ArrayList<>();
+    private final List<String> orderedYearList = new ArrayList<>();
+    private final List<String> orderedPaymentList = new ArrayList<>();
 
     public List<String> getOrderedMonthsList() {
-        return orderedMonthsList;
+        return this.orderedMonthsList;
     }
 
     public List<String> getOrderedYearList() {
-        return orderedYearList;
+        return this.orderedYearList;
     }
 
     public List<String> getOrderedPaymentList() {
-        return orderedPaymentList;
+        return this.orderedPaymentList;
     }
 
-    @Override
     public String toString() {
-        return "PaymentHistory{" + "orderedMonthsList=" + orderedMonthsList + ", orderedYearList=" + orderedYearList + ", orderedPaymentList=" + orderedPaymentList + '}';
+        return "PaymentHistory{orderedMonthsList=" + this.orderedMonthsList + ", orderedYearList=" + this.orderedYearList + ", orderedPaymentList=" + this.orderedPaymentList + '}';
     }
 
     public int getLatePayments() {
         int count = 0;
+
         for (String payment : this.orderedPaymentList) {
             try {
                 payment = payment.trim();
                 Integer.parseInt(payment);
-                count++;
-            } catch (NumberFormatException e) {
-                // value not a number 
+                ++count;
+            } catch (NumberFormatException var5) {
             }
         }
+
         return count;
     }
 }

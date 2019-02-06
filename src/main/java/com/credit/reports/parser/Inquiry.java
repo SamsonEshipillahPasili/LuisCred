@@ -6,9 +6,6 @@ public class Inquiry {
     private String dateOfInquiry;
     private String creditBureau;
 
-    public Inquiry() {
-    }
-
     public String getCreditorName() {
         return this.creditorName;
     }

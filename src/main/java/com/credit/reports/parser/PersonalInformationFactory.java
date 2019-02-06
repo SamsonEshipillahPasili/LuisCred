@@ -12,13 +12,13 @@ public class PersonalInformationFactory {
 
     public PersonalInformationFactory(Document document) {
         this.document = document;
-        this.piMap = new HashMap();
+        this.piMap = new HashMap<>();
 
         Elements rows;
         try {
-            Element tableBody = ((Element)document.getElementsMatchingOwnText("Personal Information").get(0)).nextElementSibling().nextElementSibling().child(0);
+            Element tableBody = document.getElementsMatchingOwnText("Personal Information").get(0).nextElementSibling().nextElementSibling().child(0);
             rows = tableBody.children();
-        } catch (Exception var10) {
+        } catch (Exception var9) {
             rows = new Elements();
         }
 
@@ -27,48 +27,48 @@ public class PersonalInformationFactory {
         PersonalInformation experian = new PersonalInformation();
 
         for(int count = 1; count < rows.size(); ++count) {
-            Element currentRow = (Element)rows.get(count);
+            Element currentRow = rows.get(count);
             Elements currentRowColumns = currentRow.children();
             switch(count) {
                 case 1:
-                    transUnion.setCreditReportDate(((Element)currentRowColumns.get(1)).text());
-                    experian.setCreditReportDate(((Element)currentRowColumns.get(2)).text());
-                    equifax.setCreditReportDate(((Element)currentRowColumns.get(3)).text());
+                    transUnion.setCreditReportDate(currentRowColumns.get(1).text());
+                    experian.setCreditReportDate(currentRowColumns.get(2).text());
+                    equifax.setCreditReportDate(currentRowColumns.get(3).text());
                     break;
                 case 2:
-                    transUnion.setName(((Element)currentRowColumns.get(1)).text());
-                    experian.setName(((Element)currentRowColumns.get(2)).text());
-                    equifax.setName(((Element)currentRowColumns.get(3)).text());
+                    transUnion.setName(currentRowColumns.get(1).text());
+                    experian.setName(currentRowColumns.get(2).text());
+                    equifax.setName(currentRowColumns.get(3).text());
                     break;
                 case 3:
-                    transUnion.setAlias(((Element)currentRowColumns.get(1)).text());
-                    experian.setAlias(((Element)currentRowColumns.get(2)).text());
-                    equifax.setAlias(((Element)currentRowColumns.get(3)).text());
+                    transUnion.setAlias(currentRowColumns.get(1).text());
+                    experian.setAlias(currentRowColumns.get(2).text());
+                    equifax.setAlias(currentRowColumns.get(3).text());
                     break;
                 case 4:
-                    transUnion.setFormer(((Element)currentRowColumns.get(1)).text());
-                    experian.setFormer(((Element)currentRowColumns.get(2)).text());
-                    equifax.setFormer(((Element)currentRowColumns.get(3)).text());
+                    transUnion.setFormer(currentRowColumns.get(1).text());
+                    experian.setFormer(currentRowColumns.get(2).text());
+                    equifax.setFormer(currentRowColumns.get(3).text());
                     break;
                 case 5:
-                    transUnion.setDateOfBirth(((Element)currentRowColumns.get(1)).text());
-                    experian.setDateOfBirth(((Element)currentRowColumns.get(2)).text());
-                    equifax.setDateOfBirth(((Element)currentRowColumns.get(3)).text());
+                    transUnion.setDateOfBirth(currentRowColumns.get(1).text());
+                    experian.setDateOfBirth(currentRowColumns.get(2).text());
+                    equifax.setDateOfBirth(currentRowColumns.get(3).text());
                     break;
                 case 6:
-                    transUnion.setCurrentAddresses(((Element)currentRowColumns.get(1)).text());
-                    experian.setCurrentAddresses(((Element)currentRowColumns.get(2)).text());
-                    equifax.setCurrentAddresses(((Element)currentRowColumns.get(3)).text());
+                    transUnion.setCurrentAddresses(currentRowColumns.get(1).text());
+                    experian.setCurrentAddresses(currentRowColumns.get(2).text());
+                    equifax.setCurrentAddresses(currentRowColumns.get(3).text());
                     break;
                 case 7:
-                    transUnion.setPreviousAddresses(((Element)currentRowColumns.get(1)).text());
-                    experian.setPreviousAddresses(((Element)currentRowColumns.get(2)).text());
-                    equifax.setPreviousAddresses(((Element)currentRowColumns.get(3)).text());
+                    transUnion.setPreviousAddresses(currentRowColumns.get(1).text());
+                    experian.setPreviousAddresses(currentRowColumns.get(2).text());
+                    equifax.setPreviousAddresses(currentRowColumns.get(3).text());
                     break;
                 case 8:
-                    transUnion.setEmployers(((Element)currentRowColumns.get(1)).text());
-                    experian.setEmployers(((Element)currentRowColumns.get(2)).text());
-                    equifax.setEmployers(((Element)currentRowColumns.get(3)).text());
+                    transUnion.setEmployers(currentRowColumns.get(1).text());
+                    experian.setEmployers(currentRowColumns.get(2).text());
+                    equifax.setEmployers(currentRowColumns.get(3).text());
             }
         }
 
@@ -78,14 +78,14 @@ public class PersonalInformationFactory {
     }
 
     public PersonalInformation experian() {
-        return (PersonalInformation)this.piMap.get("experian");
+        return this.piMap.get("experian");
     }
 
     public PersonalInformation transUnion() {
-        return (PersonalInformation)this.piMap.get("transUnion");
+        return this.piMap.get("transUnion");
     }
 
     public PersonalInformation equifax() {
-        return (PersonalInformation)this.piMap.get("equifax");
+        return this.piMap.get("equifax");
     }
 }
