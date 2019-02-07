@@ -330,21 +330,31 @@ public class TradeLine {
     }
 
     public String getRowStyle(boolean isConsistent) {
-        return isConsistent ? "background-color: white;" : "background-color: #ffb7b3";
+        return isConsistent ? "vertical-align: middle;background-color: white;" : "vertical-align: middle;background-color: #ffb7b3";
     }
+
+    public String getRowStyle2(boolean isConsistent) {
+        return isConsistent ? "vertical-align: middle;background-color: white;" : "vertical-align: middle;background-color: #ffff99";
+    }
+
+
 
     public String getLateStyle() {
         if (this.transUnion.getPaymentHistory().getLatePayments() > 0) {
-            return "background-color: #ffb7b3";
+            return "vertical-align: middle;background-color: #ffb7b3";
         } else if (this.experian.getPaymentHistory().getLatePayments() > 0) {
-            return "background-color: #ffb7b3";
+            return "vertical-align: middle;background-color: #ffb7b3";
         } else {
             return this.equifax.getPaymentHistory().getLatePayments() > 0 ? "background-color: #ffb7b3" : "background-color: white";
         }
     }
 
+
     public String getDerogatoryStyle() {
-        String returnStyle = !this.transUnion.getAccountStatus().contains("Derogatory") && !this.experian.getAccountStatus().contains("Derogatory") && !this.equifax.getAccountStatus().contains("Derogatory") ? "background-color: white" : "background-color: #ffb7b3";
+        String returnStyle = !this.transUnion.getAccountStatus().toLowerCase().contains("Derogatory")
+                && !this.experian.getAccountStatus().toLowerCase().contains("Derogatory")
+                && !this.equifax.getAccountStatus().contains("Derogatory") ? "background-color: white" : "background-color: #ffb7b3";
+
         if (returnStyle.equals("background-color: white")) {
             boolean allMatch = Stream.of(this.transUnion.getAccountStatus(), this.experian.getAccountStatus(), this.equifax.getAccountStatus()).map((status) -> {
                 return status.trim().toLowerCase();
@@ -354,7 +364,8 @@ public class TradeLine {
                 return status.equals(this.transUnion.getAccountStatus().trim().toLowerCase());
             });
             if (!allMatch) {
-                returnStyle = "background-color: #ffff99";
+                //returnStyle = "background-color: #ffff99";
+                returnStyle = "background-color: #ffb7b3";
             }
         }
 

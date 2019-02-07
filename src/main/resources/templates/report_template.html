@@ -144,7 +144,7 @@
 </div>
 
 <!-- <div class = "row credit-analysis-header-row"  style="margin-top: 150px">-->
-<div class="row credit-analysis-header-row" style="margin-top: 100px">
+<div class="row credit-analysis-header-row" style="margin-top: 120px">
     <div class="col-sm-1">&nbsp;</div>
     <div class="col-sm-9">
         <div style="text-align: center"><span style="font-family: serif; font-size: 12px; font-style: italic">Perez Enterprises LLC., 15701 State Road 50, Suite 204, Clermont, FL 34711</span>
@@ -208,6 +208,14 @@
     </p>
 </div>
 
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 <br/>
 <br/>
 <br/>
@@ -444,14 +452,12 @@
 <table class="table table-bordered table-condensed" style="table-layout: fixed; width: 100%;">
     <thead>
     <tr class="credit-analysis-tr">
-        <th style="vertical-align: middle;width: 10%;">#</th>
         <th style="vertical-align: middle;width: 45%;">CREDIT MIX AMONG ALL TRADELINES (<span>15</span>%)</th>
         <th style="vertical-align: middle;width: 45%;">How many Tradelines are reporting these types of accounts?</th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td style="vertical-align: middle">1.</td>
         <td style="vertical-align: middle">Revolving: Credit Cards, Flexible Spending LOC, Credit
             Line, Charge Account, Home Improvement Loan, HILOC
         </td>
@@ -460,29 +466,24 @@
         </td>
     </tr>
     <tr>
-        <td style="vertical-align: middle">2.</td>
         <td style="vertical-align: middle">Real Estate Mortgages</td>
         <td style="vertical-align: middle" th:text="${reportData.getAccountDetailedTypes().getRealEstate()}">0</td>
     </tr>
     <tr>
-        <td style="vertical-align: middle">3</td>
         <td style="vertical-align: middle">Auto Loans</td>
         <td style="vertical-align: middle" th:text="${reportData.getAccountDetailedTypes().getAutoLoans()}">0</td>
     </tr>
     <tr>
-        <td style="vertical-align: middle">4</td>
         <td style="vertical-align: middle">Educational</td>
         <td style="vertical-align: middle" th:text="${reportData.getAccountDetailedTypes().getEducational()}">0</td>
     </tr>
     <tr>
-        <td style="vertical-align: middle">5</td>
         <td style="vertical-align: middle">All Others</td>
         <td style="vertical-align: middle" th:text="${reportData.getAccountDetailedTypes().getOtherInstallmentLoans()}">
             0>
         </td>
     </tr>
     <tr>
-        <td style="vertical-align: middle"></td>
         <td style="vertical-align: middle"><strong>Overall Quality Of Your Mix of Tradelines</strong></td>
         <td style="vertical-align: middle"><strong
                 th:text="${reportData.getAccountDetailedTypes().getAccountDetailedTypesRating()}">Poor</strong></td>
@@ -495,19 +496,16 @@
 <table class="table table-bordered table-condensed" style="table-layout: fixed;width: 100%">
     <thead>
     <tr class="credit-analysis-tr">
-        <th style="vertical-align: middle;width: 10%;">#</th>
         <th style="vertical-align: middle;width: 45%;">AGE OF CREDIT TRADELINES (10%)</th>
         <th style="vertical-align: middle;width: 45%;">Age in Years</th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td style="vertical-align: middle">1.</td>
         <td style="vertical-align: middle">Average Age of All Accounts</td>
         <td style="vertical-align: middle" th:text="${reportData.getAverageAccountAges()}">5.76</td>
     </tr>
     <tr>
-        <td style="vertical-align: middle"></td>
         <td style="vertical-align: middle">Overall Quality Of The Age Of Your Tradelines</td>
         <td style="vertical-align: middle"><strong th:text="${reportData.getAverageAgeRating()}">Poor</strong></td>
     </tr>
@@ -519,19 +517,16 @@
 <table class="table table-bordered table-condensed" style="table-layout: fixed;width: 100%;">
     <thead>
     <tr class="credit-analysis-tr">
-        <th style="vertical-align: middle;width: 10%;">#</th>
         <th style="vertical-align: middle;width: 45%;">TOTAL HARD INQUIRY PULLS IN LAST 24 MONTHS (10%)</th>
         <th style="vertical-align: middle">Inquiries</th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td style="vertical-align: middle">1.</td>
         <td style="vertical-align: middle">Total Number of Inquiries</td>
         <td style="vertical-align: middle" th:text="${reportData.getHardInquiries()}"></td>
     </tr>
     <tr>
-        <td style="vertical-align: middle"></td>
         <td style="vertical-align: middle">Overall Quality Of Your Record Of Hard Inquiries</td>
         <td style="vertical-align: middle"><strong th:text="${reportData.getInquiryRating()}">Bad</strong></td>
     </tr>
@@ -590,14 +585,26 @@
             <td style="vertical-align: middle" class="left-header"
                 th:text="${tradeLine.getEquifax().getBeaureuCode()}"></td>
         </tr>
-        <tr th:style="${tradeLine.getDerogatoryStyle()}">
+        <tr>
             <td style="vertical-align: middle;background-color: white" class="left-header">Account Status</td>
-            <td style="vertical-align: middle" class="left-header"
-                th:text="${tradeLine.getTransUnion().getAccountStatus()}"></td>
-            <td style="vertical-align: middle" class="left-header"
-                th:text="${tradeLine.getExperian().getAccountStatus()}"></td>
-            <td style="vertical-align: middle" class="left-header"
-                th:text="${tradeLine.getEquifax().getAccountStatus()}"></td>
+            <td th:if="${!tradeLine.getTransUnion().getAccountNumer().trim().isEmpty()}"
+                th:style="${tradeLine.getDerogatoryStyle()}"
+                th:text="${tradeLine.getTransUnion().getAccountStatus()}"
+                class="left-header"></td>
+            <td th:if="${tradeLine.getTransUnion().getAccountNumer().trim().isEmpty()}" class="left-header"></td>
+
+            <td th:if="${!tradeLine.getExperian().getAccountNumer().trim().isEmpty()}"
+                th:style="${tradeLine.getDerogatoryStyle()}"
+                th:text="${tradeLine.getExperian().getAccountStatus()}"
+                class="left-header"></td>
+            <td th:if="${tradeLine.getExperian().getAccountNumer().trim().isEmpty()}" class="left-header"></td>
+
+            <td th:if="${!tradeLine.getEquifax().getAccountNumer().trim().isEmpty()}"
+                th:style="${tradeLine.getDerogatoryStyle()}"
+                th:text="${tradeLine.getEquifax().getAccountStatus()}"
+                class="left-header"></td>
+            <td th:if="${tradeLine.getEquifax().getAccountNumer().trim().isEmpty()}" class="left-header"></td>
+
         </tr>
         <!-- <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().MONTHLY_PAYMENT))}">-->
         <tr>
@@ -667,24 +674,50 @@
             <td style="vertical-align: middle" class="left-header"
                 th:text="${tradeLine.getEquifax().getPastDue()}"></td>
         </tr>
-        <tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().PAYMENT_STATUS))}">
+        <tr>
             <td style="vertical-align: middle;background-color: white" class="left-header">Payment Status</td>
-            <td style="vertical-align: middle" class="left-header"
-                th:text="${tradeLine.getTransUnion().getPaymentStatus()}"></td>
-            <td style="vertical-align: middle" class="left-header"
-                th:text="${tradeLine.getExperian().getPaymentStatus()}"></td>
-            <td style="vertical-align: middle" class="left-header"
-                th:text="${tradeLine.getEquifax().getPaymentStatus()}"></td>
+
+            <td th:if="${!tradeLine.getTransUnion().getAccountNumer().trim().isEmpty()}"
+                th:text="${tradeLine.getTransUnion().getPaymentStatus()}"
+                th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().PAYMENT_STATUS))}"
+                class="left-header"></td>
+            <td th:if="${tradeLine.getTransUnion().getAccountNumer().trim().isEmpty()}" class="left-header"></td>
+
+            <td th:if="${!tradeLine.getExperian().getAccountNumer().trim().isEmpty()}"
+                th:text="${tradeLine.getExperian().getPaymentStatus()}"
+                th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().PAYMENT_STATUS))}"
+                class="left-header"></td>
+            <td th:if="${tradeLine.getExperian().getAccountNumer().trim().isEmpty()}" class="left-header"></td>
+
+            <td th:if="${!tradeLine.getEquifax().getAccountNumer().trim().isEmpty()}"
+                th:text="${tradeLine.getEquifax().getPaymentStatus()}"
+                th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().PAYMENT_STATUS))}"
+                class="left-header"></td>
+            <td th:if="${tradeLine.getEquifax().getAccountNumer().trim().isEmpty()}" class="left-header"></td>
+
         </tr>
         <!--<tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().LAST_REPORTED))}">-->
         <tr>
             <td style="vertical-align: middle;background-color: white" class="left-header">Last Reported</td>
-            <td style="vertical-align: middle" class="left-header"
-                th:text="${tradeLine.getTransUnion().getLastReported()}"></td>
-            <td style="vertical-align: middle" class="left-header"
-                th:text="${tradeLine.getExperian().getLastReported()}"></td>
-            <td style="vertical-align: middle" class="left-header"
-                th:text="${tradeLine.getEquifax().getLastReported()}"></td>
+
+
+            <td th:if="${!tradeLine.getTransUnion().getLastReported().trim().isEmpty()}"
+                th:text="${tradeLine.getTransUnion().getLastReported()}"
+                th:style="${tradeLine.getRowStyle2(tradeLine.isConsistent(reportData.getConstants().LAST_REPORTED))}"
+                class="left-header"></td>
+            <td th:if="${tradeLine.getTransUnion().getLastReported().trim().isEmpty()}" class="left-header"></td>
+
+            <td th:if="${!tradeLine.getExperian().getLastReported().trim().isEmpty()}"
+                th:text="${tradeLine.getExperian().getLastReported()}"
+                th:style="${tradeLine.getRowStyle2(tradeLine.isConsistent(reportData.getConstants().LAST_REPORTED))}"
+                class="left-header"></td>
+            <td th:if="${tradeLine.getExperian().getLastReported().trim().isEmpty()}" class="left-header"></td>
+
+            <td th:if="${!tradeLine.getEquifax().getLastReported().trim().isEmpty()}"
+                th:text="${tradeLine.getEquifax().getLastReported()}"
+                th:style="${tradeLine.getRowStyle2(tradeLine.isConsistent(reportData.getConstants().LAST_REPORTED))}"
+                class="left-header"></td>
+            <td th:if="${tradeLine.getEquifax().getLastReported().trim().isEmpty()}" class="left-header"></td>
         </tr>
         <!--<tr>
             <td style="vertical-align: middle;background-color: white" class="left-header">Comments</td>
@@ -695,38 +728,67 @@
         <!--<tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().DATE_LAST_ACTIVE))}">-->
         <tr>
             <td style="vertical-align: middle;background-color: white" class="left-header">Date Last Active</td>
-            <td style="vertical-align: middle" class="left-header"
-                th:text="${tradeLine.getTransUnion().getDateLastActive()}"></td>
-            <td style="vertical-align: middle" class="left-header"
-                th:text="${tradeLine.getExperian().getDateLastActive()}"></td>
-            <td style="vertical-align: middle" class="left-header"
-                th:text="${tradeLine.getEquifax().getDateLastActive()}"></td>
+
+            <td th:if="${!tradeLine.getTransUnion().getDateLastActive().trim().isEmpty()}"
+                th:text="${tradeLine.getTransUnion().getDateLastActive()}"
+                th:style="${tradeLine.getRowStyle2(tradeLine.isConsistent(reportData.getConstants().DATE_LAST_ACTIVE))}"
+                class="left-header"></td>
+            <td th:if="${tradeLine.getTransUnion().getDateLastActive().trim().isEmpty()}" class="left-header"></td>
+
+            <td th:if="${!tradeLine.getExperian().getDateLastActive().trim().isEmpty()}"
+                th:text="${tradeLine.getExperian().getDateLastActive()}"
+                th:style="${tradeLine.getRowStyle2(tradeLine.isConsistent(reportData.getConstants().DATE_LAST_ACTIVE))}"
+                class="left-header"></td>
+            <td th:if="${tradeLine.getExperian().getDateLastActive().trim().isEmpty()}" class="left-header"></td>
+
+            <td th:if="${!tradeLine.getEquifax().getDateLastActive().trim().isEmpty()}"
+                th:text="${tradeLine.getEquifax().getDateLastActive()}"
+                th:style="${tradeLine.getRowStyle2(tradeLine.isConsistent(reportData.getConstants().DATE_LAST_ACTIVE))}"
+                class="left-header"></td>
+            <td th:if="${tradeLine.getEquifax().getDateLastActive().trim().isEmpty()}" class="left-header"></td>
         </tr>
         <!--<tr th:style="${tradeLine.getRowStyle(tradeLine.isConsistent(reportData.getConstants().DATE_OF_LAST_PAYMENT))}">-->
         <tr>
             <td style="vertical-align: middle;background-color: white" class="left-header">Date of Last Payment</td>
-            <td style="vertical-align: middle" class="left-header"
-                th:text="${tradeLine.getTransUnion().getDateOfLastPayment()}"></td>
-            <td style="vertical-align: middle" class="left-header"
-                th:text="${tradeLine.getExperian().getDateOfLastPayment()}"></td>
-            <td style="vertical-align: middle" class="left-header"
-                th:text="${tradeLine.getEquifax().getDateOfLastPayment()}"></td>
+
+            <td th:if="${!tradeLine.getTransUnion().getDateOfLastPayment().trim().isEmpty()}"
+                th:text="${tradeLine.getTransUnion().getDateOfLastPayment()}"
+                th:style="${tradeLine.getRowStyle2(tradeLine.isConsistent(reportData.getConstants().DATE_OF_LAST_PAYMENT))}"
+                class="left-header"></td>
+            <td th:if="${tradeLine.getTransUnion().getDateOfLastPayment().trim().isEmpty()}" class="left-header"></td>
+
+            <td th:if="${!tradeLine.getExperian().getDateOfLastPayment().trim().isEmpty()}"
+                th:text="${tradeLine.getExperian().getDateOfLastPayment()}"
+                th:style="${tradeLine.getRowStyle2(tradeLine.isConsistent(reportData.getConstants().DATE_OF_LAST_PAYMENT))}"
+                class="left-header"></td>
+            <td th:if="${tradeLine.getExperian().getDateOfLastPayment().trim().isEmpty()}" class="left-header"></td>
+
+            <td th:if="${!tradeLine.getEquifax().getDateOfLastPayment().trim().isEmpty()}"
+                th:text="${tradeLine.getEquifax().getDateOfLastPayment()}"
+                th:style="${tradeLine.getRowStyle2(tradeLine.isConsistent(reportData.getConstants().DATE_OF_LAST_PAYMENT))}"
+                class="left-header"></td>
+            <td th:if="${tradeLine.getEquifax().getDateOfLastPayment().trim().isEmpty()}" class="left-header"></td>
+
         </tr>
 
-        <tr th:style="${tradeLine.getLateStyle()}">
+        <tr>
             <td style="vertical-align: middle;background-color: white">Report Of Times Late During Last 24 Months?</td>
-            <td style="vertical-align: middle">
-                               <span th:if="${!tradeLine.getTransUnion().getAccountNumer().trim().isEmpty()}"
-                                     th:text="${tradeLine.getTransUnion().getPaymentHistory().getLatePayments()}"></span>
-            </td>
-            <td style="vertical-align: middle">
-                                <span th:if="${!tradeLine.getExperian().getAccountNumer().trim().isEmpty()}"
-                                      th:text="${tradeLine.getExperian().getPaymentHistory().getLatePayments()}"></span>
-            </td>
-            <td style="vertical-align: middle">
-                                <span th:if="${!tradeLine.getEquifax().getAccountNumer().trim().isEmpty()}"
-                                      th:text="${tradeLine.getEquifax().getPaymentHistory().getLatePayments()}"></span>
-            </td>
+
+            <td  th:if="${!tradeLine.getTransUnion().getAccountNumer().trim().isEmpty()}"
+                 th:style="${tradeLine.getLateStyle()}"
+                 th:text="${tradeLine.getTransUnion().getPaymentHistory().getLatePayments()}"></td>
+            <td  th:if="${tradeLine.getTransUnion().getAccountNumer().trim().isEmpty()}"></td>
+
+            <td  th:if="${!tradeLine.getExperian().getAccountNumer().trim().isEmpty()}"
+                 th:style="${tradeLine.getLateStyle()}"
+                 th:text="${tradeLine.getExperian().getPaymentHistory().getLatePayments()}"></td>
+            <td  th:if="${tradeLine.getExperian().getAccountNumer().trim().isEmpty()}"></td>
+
+            <td  th:if="${!tradeLine.getEquifax().getAccountNumer().trim().isEmpty()}"
+                 th:style="${tradeLine.getLateStyle()}"
+                 th:text="${tradeLine.getEquifax().getPaymentHistory().getLatePayments()}"></td>
+            <td  th:if="${tradeLine.getEquifax().getAccountNumer().trim().isEmpty()}"></td>
+
         </tr>
         </tbody>
     </table>
@@ -737,7 +799,7 @@
 <!--****************************************************************************************************** -->
 <h3 class="credit-analysis-h3">FREQUENTLY-ASKED QUESTIONS</h3>
 
-<h3 class="credit-analysis-h3" style="font-weight: normal; text-decoration: none">WHAT IS "CREDIT RESTORATION?"</h3>
+<h3 class="credit-analysis-h3" style="font-weight: normal; text-decoration: none">WHAT IS "CREDIT COACHING?"</h3>
 
 <p class="credit-analysis-main-text">
     One of the most important consumer-friendly pieces of legislation that ever came out of Congress is
@@ -749,7 +811,7 @@
 </p>
 
 <p class="credit-analysis-main-text" style="font-weight: bold">
-    Credit Restoration is the service designed to ensure your credit reports are reflecting
+    Credit Coaching is the service designed to ensure your credit reports are reflecting
     the most accurate credit data which will, in turn, reflect the highest FICO credit scores you deserve.
 </p>
 
@@ -767,12 +829,12 @@
     auto insurance, life insurance, property insurance, and every imaginable financial product known to humankind.
 </p>
 
-<h3 class="credit-analysis-h3" style="font-weight: normal; text-decoration: none">IS CREDIT RESTORATION LEGAL?</h3>
+<h3 class="credit-analysis-h3" style="font-weight: normal; text-decoration: none">IS CREDIT COACHING LEGAL?</h3>
 
 <p class="credit-analysis-main-text">
     Absolutely! The FCRA allows consumers to challenge inaccurate data that is found in their credit reports. Of course,
     the CRAs and creditors do everything they can to discourage Americans from taking advantage of the FCRA -- and they
-    especially disdain and demonize legitimate and honest credit restoration businesses committed to helping their
+    especially disdain and demonize legitimate and honest credit coaching businesses committed to helping their
     clients ensure their rights under the FCRA.
     The fact of that matter is that every consumer has the right to ensure their credit reports are 100% accurate.
 </p>
@@ -819,7 +881,7 @@
 <p class="credit-analysis-main-text" style="font-weight: bold">
     I'm a believer in "amazing credit" which I classify as a 785+ FICO credit score.
     At that level you're a CREDIT SCORE SUPERSTAR! That's the magical number I teach consumers how to
-    strategically reach if they're really serious about credit restoration.
+    strategically reach if they're really serious about credit coaching.
 </p>
 
 <h3 class="credit-analysis-h3" style="font-weight: normal; text-decoration: none">WHAT IS A “FICO” CREDIT SCORE?</h3>
@@ -850,7 +912,7 @@
     to make a credit decision of any kind.
 </p>
 
-<h3 class="credit-analysis-h3" style="font-weight: normal; text-decoration: none">CAN CREDIT RESTORATION BE HELPFUL FOR
+<h3 class="credit-analysis-h3" style="font-weight: normal; text-decoration: none">CAN CREDIT COACHING BE HELPFUL FOR
     SOMEONE WHO'S FILED FOR BANKRUPTCY?</h3>
 <p class="credit-analysis-main-text">
     First, let me state that I am NOT an attorney, so any information provided here is not intended to be
@@ -859,7 +921,7 @@
     That's a personal matter between a person and his or her attorney (and beyond the scope of my expertise).
 </p>
 <p class="credit-analysis-main-text">
-    On the other hand, speaking to the issue strictly related to credit restoration after a BK, there are many
+    On the other hand, speaking to the issue strictly related to credit coaching after a BK, there are many
     folks today who filed for BK 24 months ago with credit scores now in the high 600s to low 700s,
     have a new home, a new car, and getting back on their "credit and financial feet." Although there's a steep
     price to pay for filing a BK, folks who have done well after a BK are those who never miss a payment on
@@ -871,7 +933,7 @@
     You sure can! In fact, there’s nothing that I do that you can’t do yourself as long as you have the knowledge,
     skills, technology, and patience to correctly address the intricacies of your unique credit situation under
     the FCRA. If you prefer the assistance of professionals to help you navigate the tricky and murky waters of
-    credit restoration, that's where I come in!
+    credit coaching, that's where I come in!
 </p>
 
 <h3 class="credit-analysis-h3" style="font-weight: normal; text-decoration: none; text-decoration: underline">IS MY
@@ -885,10 +947,9 @@
 <h3 class="credit-analysis-h3" style="font-weight: normal; text-decoration: none;">WHAT FORMS OF PAYMENT CAN I USE TO
     PAY MY SERVICES?</h3>
 <p class="credit-analysis-main-text">
-    Fees for credit restoration services are billed (usually about every 30-35 days) by the commonly-used
-    checking account paper drafting method after each round of service has been completed.
+    Fees for credit coaching services are billed by the commonly-used checking account paper drafting method.
     The reason why I use this method of payment is simple: How can I coach a client through the credit
-    restoration process and then ask them to use a credit card to pay for the services? I just don't think
+    coaching process and then ask them to use a credit card to pay for the services? I just don't think
     that's a smart way to model the appropriate use of credit!
 </p>
 
@@ -896,11 +957,11 @@
 <h3 class="credit-analysis-h3" style="font-weight: normal; text-decoration: none;">HOW LONG DOES IT TAKE TO SEE
     IMPROVEMENTS IN MY CREDIT REPORTS?</h3>
 <p class="credit-analysis-main-text">
-    Successful credit restoration is different for every client. And no one can predict how much, if any,
+    Successful credit coaching is different for every client. And no one can predict how much, if any,
     your credit scores will increase in a sustained campaign to correct incorrect, obsolete,
     or unverifiable information. No one! On the other hand, in many instances, clients may see improvement in
     their credit scores in the first to third round of service. Nevertheless, the best results will come after
-    the six rounds of services are complete.
+    the six rounds of services are complete (as in the use of the Advanced Credit coaching model).
 </p>
 <p class="credit-analysis-main-text" style="font-weight: bold">
     Although no one can guarantee what your credit scores will look like after your services are complete,
@@ -915,8 +976,8 @@
 <p class="credit-analysis-main-text">
     I have a 100% satisfaction guarantee! In the event you're not satisfied with my services,
     you can cancel at any time by simply calling 407-877-0406 or emailing me at <span style="font-weight: bold">LUIS@CREDITEVANGELIST.COM</span> 
-    and I'll make sure you get 100% of the round-of-dispute fees you paid within seven working days
-    (doesn't apply to the set-up or consultation fees).
+    and I'll make sure you get 100% of the fees you paid within seven working days
+    (doesn't apply to the set-up or consultation fees - if applicable).
 </p>
 </body>
 </html>

@@ -14,8 +14,11 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ReportData implements Serializable {
     private final HtmlCreditReport htmlCreditReport;
@@ -221,19 +224,28 @@ public class ReportData implements Serializable {
 
     public List<TradeLine> getRevolvingDebitCreditRatios() {
         List<TradeLine> tradeLines = this.getTradeLines();
-        List<TradeLine> revolvingTradeLines = new ArrayList<>();
-        tradeLines.forEach((tradeLine) -> {
-            if (tradeLine.getTransUnion().getAccountType().contains("Revolving") || tradeLine.getExperian().getAccountType().contains("Revolving") || tradeLine.getEquifax().getAccountType().contains("Revolving")) {
-                revolvingTradeLines.add(tradeLine);
-            }
 
-        });
-        return revolvingTradeLines;
+        Predicate<TradeLine> p = tradeLine -> {
+            boolean accType = Stream.of(tradeLine.getTransUnion().getAccountType(), tradeLine.getExperian().getAccountType(),
+                    tradeLine.getEquifax().getAccountType())
+                    .anyMatch(it -> it.toLowerCase().contains("revolving"));
+
+            boolean paymentStatus = Stream.of(tradeLine.getTransUnion().getPaymentStatus(), tradeLine.getExperian().getPaymentStatus(),
+                    tradeLine.getEquifax().getPaymentStatus())
+                    .anyMatch(it -> it.toLowerCase().contains("current"));
+
+            return accType && paymentStatus;
+        };
+
+        return tradeLines.stream()
+                .filter(p)
+                .collect(Collectors.toList());
+
     }
 
     public String getRevolvingDCradtiosRating() {
         double avgDcRatio = Double.parseDouble(this.getAverageRevolvingDCratio().replace("%", ""));
-        if (avgDcRatio > 0.0D && avgDcRatio <= 6.0D) {
+        if (avgDcRatio >= 0.0D && avgDcRatio <= 6.0D) {
             return "Excellent";
         } else if (avgDcRatio > 6.0D && avgDcRatio <= 10.0D) {
             return "Good";
@@ -242,7 +254,7 @@ public class ReportData implements Serializable {
         } else if (avgDcRatio > 30.0D && avgDcRatio <= 60.0D) {
             return "Poor";
         } else {
-            return avgDcRatio > 60.0D ? "Bad" : "Value Out of Range";
+            return avgDcRatio > 60.0D ? "Bad" : "";
         }
     }
 

@@ -185,4 +185,21 @@ public class AccountInformation {
     public String toString() {
         return "AccountInformation{accountName=" + this.accountName + ", accountNumer=" + this.accountNumer + ", accountType=" + this.accountType + ", detailedAccountType=" + this.detailedAccountType + ", beaureuCode=" + this.beaureuCode + ", accountStatus=" + this.accountStatus + ", monthlyPayment=" + this.monthlyPayment + ", dateOpened=" + this.dateOpened + ", balance=" + this.balance + ", noOfMonths=" + this.noOfMonths + ", highCredit=" + this.highCredit + ", creditLimit=" + this.creditLimit + ", pastDue=" + this.pastDue + ", paymentStatus=" + this.paymentStatus + ", lastReported=" + this.lastReported + ", comments=" + this.comments + ", dateLastActive=" + this.dateLastActive + ", dateOfLastPayment=" + this.dateOfLastPayment + ", paymentHistory=" + this.paymentHistory + '}';
     }
+
+    public String getDerogatoryStyle(){
+        if(this.accountStatus.toLowerCase().contains("derogatory")){
+            return "vertical-align: middle;background-color: #ffb7b3";
+        }
+
+        return "vertical-align: middle;background-color: white";
+    }
+
+
+    public String getLateStyle(){
+        if(getPaymentHistory().getLatePayments() > 0){
+            return "vertical-align: middle;background-color: #ffb7b3";
+        }
+
+        return "vertical-align: middle;background-color: white";
+    }
 }
