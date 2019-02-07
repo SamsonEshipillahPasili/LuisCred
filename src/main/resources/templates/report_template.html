@@ -108,8 +108,8 @@
     </style>
 </head>
 <body class="container-fluid" style="text-align: justify">
-<div class="credit-analysis-header-row">
-    <img class="credit-analysis-logo" src="/report_header_image.png" alt="report-image-header"/>
+<div class="credit-analysis-header-row" style="background-color: black;">
+    <img style="margin-left: 15%" src="/header_banner.png" alt="report-image-header"/>
 </div>
 <div class="row credit-analysis-header-row">
     <div class="col-sm-3">&nbsp;</div>
@@ -147,7 +147,7 @@
 <div class="row credit-analysis-header-row" style="margin-top: 100px">
     <div class="col-sm-1">&nbsp;</div>
     <div class="col-sm-9">
-        <div style="text-align: center"><span style="font-family: serif; font-size: 12px; font-style: italic">The Credit Evangelist is a d/b/a of Perez Enterprises LLC., 15701 State Road 50, Suite 204, Clermont, FL 34711</span>
+        <div style="text-align: center"><span style="font-family: serif; font-size: 12px; font-style: italic">Perez Enterprises LLC., 15701 State Road 50, Suite 204, Clermont, FL 34711</span>
         </div>
     </div>
     <div class="col-sm-1">&nbsp;</div>
@@ -157,16 +157,15 @@
 <div class="credit-analysis-main-text">
     <span>Dear </span><span th:text="${reportData.getClientFirstName().trim()}">John</span>,<br/><br/>
     <p>
-        The first step in my credit restoration process is to identify the inaccurate data in your credit
+        The first step in my credit coaching process is to identify the inaccurate data in your credit
         reports that are negatively impacting your credit scores. This is done through a deep credit
         analysis. Once I know where the problems lie, I’ll then be able to provide you the coaching
-        services you need to help improve your credit scores and reach your credit goals
+        services you need to help improve your credit scores and reach your credit goals.
     </p>
 
     <p>
-        Below is your Credit Analysis. Don’t worry about feeling overwhelmed by all this data. I’ll be
-        calling you for completion of the tele-consultation to go over the your credit report. Plan for
-        about a 30-minute tele-consultation.
+        Below is your Credit Analysis. Don’t worry about feeling overwhelmed by all this data. We'll discuss the details
+        during the consultation.
     </p>
 
     <p>
@@ -178,26 +177,25 @@
     <p>
         Once the tele-consultation is complete, and you’re ready to move forward together using my
         credit improvement strategies (The "DEAP Model"), I’ll design the first round of letters and send
-        you by email the complete package of dispute letters ready for you to print, sign, stamp, and mail
-        to the credit reporting agencies (CRAs).
+        you by email the complete package of dispute letters ready for you to print, stamp, and mail
+        to the credit reporting agencies (CRAs), preferably using certified email.
     </p>
 
     <p>
-        This will essentially be the process for every round of services – generally comprised of a
-        minimum of four rounds about every 35 days. Each round is focused on challenging the
-        inaccurate, outdated, unverifiable information being reported by the CRAs, creditors, and
-        collection agencies.
+        This will essentially be the process for every round of services about every 35 days.
+        Each round is focused on challenging the inaccurate, outdated, unverifiable information being reported
+        by the CRAs, creditors, and collection agencies.
     </p>
 
     <p>
         Please remember that after about every 35 days you’ll receive correspondence back from the
-        CRAs with the results of your disputes. Their responses will be either a “verified”, “corrected”,
-        “updated”, or “deleted.” All those CRA letters will need to be emailed or mailed to me ASAP to
-        allow me to proceed with the next round of dispute service.
+        CRAs with the results of your disputes. Their responses will be either a “verified” or “deleted.”
+        All those CRA letters will need to be mailed to me ASAP to allow me to proceed with the
+        next round of dispute service.
     </p>
 
     <p>
-        Thank you for allowing me to assist you with your credit restoration needs. I look forward to the
+        Thank you for allowing me to assist you with your credit coaching needs. I look forward to the
         journey together!
     </p>
 
@@ -206,7 +204,7 @@
         <br/>
         <br/>
         Luis A. Perez, M.Div.<br/>
-        Financial &amp; Credit Coach
+        Business &amp; Personal Credit Coach
     </p>
 </div>
 
@@ -343,14 +341,14 @@
 
 <!-- <h3 class="spacer">&nbsp;</h3> -->
 <!--****************************************************************************************************** -->
-<h3 class="credit-analysis-h3">DEROGATORY TRADELINES</h3>
+<h3 class="credit-analysis-h3">NEGATIVE TRADELINES</h3>
 <table class="table table-bordered table-condensed">
     <thead>
     <tr class="credit-analysis-tr">
         <th style="vertical-align: middle">TRADELINES</th>
         <th style="vertical-align: middle">ACCOUNT TYPE(DETAIL)</th>
         <th style="vertical-align: middle">PAYMENT STATUS</th>
-        <th style="vertical-align: middle">BALANCE</th>
+        <th style="vertical-align: middle">BALANCE (HIGHEST)</th>
         <th style="vertical-align: middle">DATE OPENED</th>
         <th style="vertical-align: middle">DATE LAST ACTIVE</th>
     </tr>
@@ -363,7 +361,7 @@
                 Card
             </td>
             <td style="vertical-align: middle" th:text="${negativeTradeLine.getNearestPaymentStatus()}">Collection</td>
-            <td style="vertical-align: middle" th:text="${negativeTradeLine.getAverageBalance()}">$373.00</td>
+            <td style="vertical-align: middle" th:text="${negativeTradeLine.getHighestBalance()}">$373.00</td>
             <td style="vertical-align: middle" class="left-header" th:text="${negativeTradeLine.getOldestDateOpened()}">
                 3/15/2011
             </td>
@@ -381,16 +379,6 @@
 <table class="table table-bordered table-condensed" style="table-layout: fixed;width: 100%;">
     <thead>
     <tr class="credit-analysis-tr">
-        <th style="vertical-align: middle;width: 10%;">#</th>
-        <!--<th>PAYMENT HISTORY
-            (
-            <span th:text="${reportData.getCreditProfile().getCurrentPositiveTradeLinesPercentage() + '%'}">35%</span>,
-            <span th:text="${reportData.getCreditProfile().getLateCurrentPaymentsPercentage()} + '%'">35%</span>,
-            <span th:text="${reportData.getCreditProfile().getChargeOffsOrCollectionsPercentage() + '%'}">35%</span>,
-            <span th:text="${reportData.getCreditProfile().getNegativePublicInfoPercentage() + '%'}">35%</span>
-            )
-
-        </th>-->
         <th style="vertical-align: middle;width: 45%;">PAYMENT HISTORY
             (
             <span>35%</span>
@@ -402,22 +390,18 @@
     </thead>
     <tbody>
     <tr>
-        <td style="vertical-align: middle">1</td>
         <td style="vertical-align: middle">Total Tradelines</td>
         <td style="vertical-align: middle" th:text="${reportData.getTradeLines().size()}">2</td>
     </tr>
     <tr>
-        <td style="vertical-align: middle">2</td>
         <td style="vertical-align: middle">Positive Tradelines</td>
         <td style="vertical-align: middle" th:text="${reportData.getPositiveTradeLines().size()}">2</td>
     </tr>
     <tr>
-        <td style="vertical-align: middle">3</td>
         <td style="vertical-align: middle">Negative Tradelines</td>
         <td style="vertical-align: middle" th:text="${reportData.getNegativeTradeLinesImproved().size()}">2</td>
     </tr>
     <tr>
-        <td style="vertical-align: middle"></td>
         <td style="vertical-align: middle"><strong>Overall Quality Of Payment History</strong></td>
         <td style="vertical-align: middle"><strong th:text="${reportData.getPaymentHistoryQuality()}">Poor</strong></td>
     </tr>

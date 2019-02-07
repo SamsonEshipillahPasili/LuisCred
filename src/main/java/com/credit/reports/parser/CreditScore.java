@@ -12,7 +12,7 @@ public class CreditScore {
     public String getCreditScoreRating() {
         int creditScoreValueInt = Integer.parseInt(this.creditScoreValue.trim());
         if (creditScoreValueInt >= 300 && creditScoreValueInt <= 549) {
-            return "Bad";
+            return "Deficient";
         } else if (creditScoreValueInt >= 550 && creditScoreValueInt <= 649) {
             return "Poor";
         } else if (creditScoreValueInt >= 650 && creditScoreValueInt <= 699) {

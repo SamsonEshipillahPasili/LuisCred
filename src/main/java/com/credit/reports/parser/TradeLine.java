@@ -3,6 +3,7 @@ package com.credit.reports.parser;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -40,6 +41,22 @@ public class TradeLine {
         double averageCreditLimit = Double.parseDouble(this.getAverageCreditLimit().replace("$", ""));
         double debitCreditRatio = averageBalance * 100.0D / averageCreditLimit;
         return Math.round(debitCreditRatio) + "%";
+    }
+
+    public String getHighestBalance(){
+        AtomicReference<String> highest = new AtomicReference<>("");
+        List<String> rawBalances = Arrays.asList(this.transUnion.getBalance(), this.experian.getBalance(), this.equifax.getBalance());
+        List<String> processedBalances = rawBalances.stream()
+                .map((rawBalance) -> rawBalance.replace("$", "").replace("-", "").replace(",", "").trim())
+                .collect(Collectors.toList());
+
+        processedBalances.stream()
+                .mapToDouble(Double::parseDouble)
+                .max()
+                .ifPresent(it -> {
+                    highest.set(String.valueOf(it));
+                });
+        return "$" + highest.get();
     }
 
     public String getAverageBalance() {

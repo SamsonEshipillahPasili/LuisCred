@@ -189,7 +189,7 @@ public class ReportData implements Serializable {
         } else if (percentage >= 60.0D && percentage <= 69.0D) {
             return "Poor";
         } else {
-            return percentage < 60.0D ? "Bad" : "Out of Range";
+            return percentage < 60.0D ? "Deficient" : "Out of Range";
         }
     }
 
